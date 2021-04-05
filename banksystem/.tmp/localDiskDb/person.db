@@ -1,3 +1,3 @@
 {"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}
-{"username":"admin","password":"123456","createdAt":1617600749569,"updatedAt":1617600749569,"id":7,"_id":7}
-{"username":"Kenny Cheng","password":"123456","createdAt":1617600749569,"updatedAt":1617600749569,"id":8,"_id":8}
+{"username":"admin","password":"$2a$10$ba2BclNL2xVYJZtcvXoC.eUEZgxQFZU/lvSGVJ7Mg5P74nXBn/p2u","createdAt":1617602555513,"updatedAt":1617602555513,"id":5,"_id":5}
+{"username":"Kenny","password":"$2a$10$ba2BclNL2xVYJZtcvXoC.eUEZgxQFZU/lvSGVJ7Mg5P74nXBn/p2u","createdAt":1617602555513,"updatedAt":1617602555513,"id":6,"_id":6}

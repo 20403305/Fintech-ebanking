@@ -82,8 +82,9 @@ module.exports = {
     
         if (!person) return res.status(401).json("User not found");
     
-        if (person.password != req.body.password) 
-            return res.status(401).json("Wrong Password");
+        var match = await sails.bcrypt.compare(req.body.password, person.password);
+
+        if (!match) return res.status(401).json("Wrong Password");
     
         // Reuse existing session 
         if (!req.session.username) {

@@ -10,7 +10,8 @@
  */
 
 module.exports.bootstrap = async function() {
-
+  sails.bcrypt = require('bcryptjs');
+  var salt = await sails.bcrypt.genSalt(10);
   // By convention, this is a good place to set up fake data during development.
   //
   // For example:
@@ -26,9 +27,13 @@ module.exports.bootstrap = async function() {
   //   // etc.
   // ]);
   // ```
+
+  var hash = await sails.bcrypt.hash('123456', salt);
+
   await Person.createEach([
-    { username: "admin", password: '123456' },
-    { username: "Kenny Cheng", password:'123456' },
+    { username: "admin", password: hash },
+    { username: "Kenny", password: hash }
     // etc.
-  ]);
+]);
+  
 };
