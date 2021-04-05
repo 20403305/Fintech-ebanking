@@ -10,30 +10,34 @@
  */
 
 module.exports.bootstrap = async function() {
-  sails.bcrypt = require('bcryptjs');
-  var salt = await sails.bcrypt.genSalt(10);
-  // By convention, this is a good place to set up fake data during development.
-  //
-  // For example:
-  // ```
-  // // Set up fake development data (or if we already have some, avast)
-  // if (await User.count() > 0) {
-  //   return;
-  // }
-  //
-  // await User.createEach([
-  //   { emailAddress: 'ry@example.com', fullName: 'Ryan Dahl', },
-  //   { emailAddress: 'rachael@example.com', fullName: 'Rachael Shaw', },
-  //   // etc.
-  // ]);
-  // ```
+    sails.bcrypt = require('bcryptjs');
+    var salt = await sails.bcrypt.genSalt(10);
+    // By convention, this is a good place to set up fake data during development.
+    //
+    // For example:
+    // ```
+    // // Set up fake development data (or if we already have some, avast)
+    // if (await User.count() > 0) {
+    //   return;
+    // }
+    //
+    // await User.createEach([
+    //   { emailAddress: 'ry@example.com', fullName: 'Ryan Dahl', },
+    //   { emailAddress: 'rachael@example.com', fullName: 'Rachael Shaw', },
+    //   // etc.
+    // ]);
+    // ```
 
-  var hash = await sails.bcrypt.hash('123456', salt);
+    var hash = await sails.bcrypt.hash('123456', salt);
 
-  await Person.createEach([
-    { username: "admin", password: hash },
-    { username: "Kenny", password: hash }
-    // etc.
-]);
-  
+    if (await Person.count() > 0) {
+        return;
+    }
+
+    await Person.createEach([
+        { username: "admin", password: hash },
+        { username: "Kenny", password: hash }
+        // etc.
+    ]);
+
 };
