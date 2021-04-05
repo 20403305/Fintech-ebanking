@@ -74,7 +74,7 @@ module.exports = {
     },
     login: async function(req, res) {
 
-        if (req.method == "GET") return res.view('person/login', { layout: 'layouts/u_layout' });
+        if (req.method == "GET") return res.view('person/login1', { layout: 'layouts/u_layout' });
 
         if (!req.body.username || !req.body.password) return res.badRequest();
 
@@ -101,6 +101,7 @@ module.exports = {
             return res.json(person);
         });
     },
+
     logout: async function(req, res) {
 
         req.session.destroy(function(err) {

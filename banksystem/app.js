@@ -52,3 +52,5 @@ try {
 
 // Start server
 sails.lift(rc('sails'));
+
+app.use(express.static(__dirname + '/public'));
