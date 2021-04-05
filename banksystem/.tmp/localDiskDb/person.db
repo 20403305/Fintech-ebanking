@@ -1,0 +1,2 @@
+{"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}
+{"createdAt":1617592330770,"updatedAt":1617592330770,"id":2,"name":"Tim","age":23,"_id":2}
