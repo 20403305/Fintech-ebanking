@@ -76,6 +76,10 @@ module.exports = {
 
         if (req.method == "GET") return res.view('person/login1', { layout: 'layouts/u_layout' });
 
+        // console.log(req.body.identifying_code)
+        // console.log(req.body.real_identifying_code)
+        if (req.body.identifying_code != req.body.real_identifying_code) return res.status(401).json("验证码错误");
+
         if (!req.body.username || !req.body.password) return res.badRequest();
 
         var person = await Person.findOne({ username: req.body.username });
