@@ -1,9 +1,7 @@
 // isAdmin.js
 module.exports = async function (req, res, proceed) {
 
-    const isUserAdmin = true;
-
-    if (isUserAdmin) {
+    if (req.session.username == 'admin') {
         return proceed();   //proceed to the next policy,
     }
 

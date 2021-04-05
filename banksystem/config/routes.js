@@ -36,11 +36,17 @@ module.exports.routes = {
     'POST /person/create': 'PersonController.create',
 
     'GET /': 'PersonController.list',
-    'GET /person': 'PersonController.list',
+    // 'GET /person': 'PersonController.list',
+    'GET /person': 'PersonController.login',
     'GET /person/list': 'PersonController.list',
+    'GET /person/login': 'PersonController.login',
     'GET /person/json': 'PersonController.json',
     'GET /person/read/:id': 'PersonController.read',
 
     'POST /person/delete/:id': 'PersonController.delete',
+
+    'POST /person/login': 'PersonController.login',
+    'POST /person/logout': 'PersonController.logout',
+
 
 };

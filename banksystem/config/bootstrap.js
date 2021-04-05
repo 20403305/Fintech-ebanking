@@ -26,5 +26,9 @@ module.exports.bootstrap = async function() {
   //   // etc.
   // ]);
   // ```
-
+  await Person.createEach([
+    { username: "admin", password: '123456' },
+    { username: "Kenny Cheng", password:'123456' },
+    // etc.
+  ]);
 };

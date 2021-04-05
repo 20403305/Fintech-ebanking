@@ -72,5 +72,33 @@ module.exports = {
             return res.ok();
         }
     },
+    login: async function (req, res) {
+
+        if (req.method == "GET") return res.view('person/login');
+    
+        if (!req.body.username || !req.body.password) return res.badRequest();
+    
+        var person = await Person.findOne({ username: req.body.username });
+    
+        if (!person) return res.status(401).json("User not found");
+    
+        if (person.password != req.body.password) 
+            return res.status(401).json("Wrong Password");
+    
+        // Reuse existing session 
+        if (!req.session.username) {
+            req.session.username = person.username; 
+            return res.json(person);
+        }
+        
+        // Start a new session for the new login user
+        req.session.regenerate(function (err) {
+    
+            if (err) return res.serverError(err);
+    
+            req.session.username = person.username;   
+            return res.json(person);
+        });
+    },
 
 };
