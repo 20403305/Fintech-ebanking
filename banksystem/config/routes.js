@@ -47,6 +47,7 @@ module.exports.routes = {
 
     'POST /person/login': 'PersonController.login',
     'POST /person/logout': 'PersonController.logout',
-
+    'GET /person/logout': 'PersonController.logout',
+    'GET /getSession': 'PersonController.getSession',
 
 };

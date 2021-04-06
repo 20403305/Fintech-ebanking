@@ -19,7 +19,11 @@ module.exports = {
         password: {
             type: "string"
         },
-
+        role: {
+            type: "string",
+            isIn: ['admin', 'member', 'visitor'],
+            // defaultsTo: "member"
+          },
         //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
         //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
         //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝

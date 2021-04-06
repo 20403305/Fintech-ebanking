@@ -60,56 +60,67 @@
 
             <div id="navbarBasicExample" class="navbar-menu">
                 <div class="navbar-start">
-                    <a class="navbar-item">
-                  Home
-                </a>
-
-                    <a class="navbar-item">
-                  Documentation
-                </a>
-
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
-                    More
+                  <a class="navbar-item" href="/coupon/list">
+                    Home
                   </a>
-
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item">
-                      About
-                    </a>
-                            <a class="navbar-item">
-                      Jobs
-                    </a>
-                            <a class="navbar-item">
-                      Contact
-                    </a>
-                            <hr class="navbar-divider">
-                            <a class="navbar-item">
-                      Report an issue
-                    </a>
-                        </div>
-                    </div>
+          
+                  <a class="navbar-item" href="/coupon/aginate">
+                    Search
+                  </a>
+          
+          
+                  <a class="navbar-item" href="/coupon/create" id="Create">
+                    Create
+                  </a>
+                  <a class="navbar-item" href="/coupon/admin" id="Admin">
+                    Admin
+                  </a>
+                  <a class="navbar-item" id="MyRedeemedCoupons">
+          
+                  </a>
+                  <div class="navbar-dropdown"></div>
+          
+          
+                  <hr class="navbar-divider">
+          
                 </div>
-
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            <a class="button is-primary">
-                                <strong>Sign up</strong>
-                            </a>
-                            <a class="button is-light">
+              </div>
+              </div>
+          
+              <div class="navbar-end">
+                <div class="navbar-item" id="reset">
+                  <div class="buttons">
+                    <a class="button is-primary" id="Signup">
+                      <strong>Sign up</strong>
+                    </a>
+                    <a class="button is-light" href="/user/login" id="Login">
                       Log in
                     </a>
-                        </div>
-                    </div>
+                    <!-- <a class="button is-light" href="user/logout" id="Logout" onclick="logout()">
+                      Log out
+                    </a> -->
+                  </div>
                 </div>
-            </div>
-        </nav>
-
-        <%- body %>
-
-
-    </section>
+              </div>
+              </div>
+            </nav>
+            <section class="section">
+              <div class="container columns is-mobile">
+                <div class="column ">
+                  <div class="columns">
+                    <div class="column is-half">
+                      <div style="font-size: 40px;font-family: sans-serif;"><strong>Q-Pon</strong></div>
+                      <div style="font-size: 20px;font-family: sans-serif;">Redeem your coins for dining coupons.</div>
+                    </div>
+                    <div class="column">
+          
+                    </div>
+                  </div>
+                  <%- body %>
+          
+                </div>
+              </div>
+            </section>
 
 
 
@@ -191,3 +202,63 @@
 </body>
 
 </html>
+
+<script>
+    async function setNew() {
+      var req = new Request("/getSession", { method: "GET", })
+      await fetch(req).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        session = json.session;
+        console.log(session);
+        console.log(session.username);
+        return session;
+      })
+      if (session.role) {
+        if (session.role == 'admin') {
+          MyRedeemedCoupons.style.display = "none";
+          var reset = document.getElementById("reset");
+          console.log(reset);
+          var dynamicCode = '<p class="control">' + 'Hi, ' + session.username + '</p>';
+          dynamicCode += '<p class="control" id="LogOut"><a class="button is-light href="user/logout" onclick="logout()"><span>Logout</span></a></p>';
+          reset.innerHTML = dynamicCode;
+        }
+        else if (session.role == 'member') {
+          Create.style.display = "none";
+          Admin.style.display = "none";
+          var reset = document.getElementById("reset");
+          var dynamicCode = '<p class="control">' + 'Hi, ' + session.username + '</p>';
+          dynamicCode += '<p class="control" id="LogOut"><a class="button is-light href="user/logout" onclick="logout()"><span>Logout</span></a></p>';
+          MyRedeemedCoupons.innerHTML = '<a class="navbar-item" href="/user/' + parseInt(session.userid) + '/clients"> My Redeemed Coupons </a>';
+          reset.innerHTML = dynamicCode;
+        }
+        else {
+          Create.style.display = "none";
+          Admin.style.display = "none";
+          MyRedeemedCoupons.style.display = "none";
+        }
+      }
+  
+    }
+    async function logout() {
+      var r = confirm("Confirm Logout?");
+  
+      if (r) {
+        var response = await fetch("/person/logout", {
+          method: "POST"
+        });
+  
+        if (response.ok) {
+          // var html = await response.text();
+          // alert(html);
+          alert("logout.");
+          location.assign("/");
+        } else {
+          alert(response.status + ": " + response.statusText);
+        }
+  
+      }
+    }
+     setNew()
+  
+  </script>

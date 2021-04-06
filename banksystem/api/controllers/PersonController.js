@@ -92,27 +92,42 @@ module.exports = {
 
         // Reuse existing session 
         if (!req.session.username) {
+            req.session.role = person.role;
             req.session.username = person.username;
-            return res.json(person);
+            req.session.userid=person.id;
+            return res.redirect('/');
         }
 
         // Start a new session for the new login user
-        req.session.regenerate(function(err) {
+        req.session.regenerate(function (err) {
 
             if (err) return res.serverError(err);
 
+            req.session.role = person.role;
             req.session.username = person.username;
+            req.session.userid=person.id;
             return res.json(person);
         });
     },
 
-    logout: async function(req, res) {
+    logout: async function (req, res) {
 
-        req.session.destroy(function(err) {
+        req.session.destroy(function (err) {
 
             if (err) return res.serverError(err);
 
-            return res.json(req.session.id);
+           
         });
+        return res.json("logout success");
+    },
+    getSession: async function (req, res) {
+        if (!req.session) {
+            return res.json('dont exist');
+
+        } else {
+            if (req.wantsJSON) {
+                return res.json({ session: req.session });
+            }
+        }
     },
 };

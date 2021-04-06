@@ -1,3 +1,3 @@
 {"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}
-{"createdAt":1617604388607,"updatedAt":1617604388607,"id":13,"username":"admin","password":"$2a$10$M0s60TwEBho3riJhGg76xONfWTPDTgscSPuWNGYzS4O4y.q434EAC","_id":13}
-{"createdAt":1617604388607,"updatedAt":1617604388607,"id":14,"username":"Kenny","password":"$2a$10$M0s60TwEBho3riJhGg76xONfWTPDTgscSPuWNGYzS4O4y.q434EAC","_id":14}
+{"username":"admin","password":"$2a$10$Xh2i.yOCU/OjtEFkxEXcQez.ExfpkDMLSlClLsv82EZsPHQjYdJj.","role":"admin","createdAt":1617702163354,"updatedAt":1617702163354,"id":17,"_id":17}
+{"username":"Kenny","password":"$2a$10$Xh2i.yOCU/OjtEFkxEXcQez.ExfpkDMLSlClLsv82EZsPHQjYdJj.","role":"member","createdAt":1617702163354,"updatedAt":1617702163354,"id":18,"_id":18}
