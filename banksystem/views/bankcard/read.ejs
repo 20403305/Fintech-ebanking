@@ -1,0 +1,52 @@
+<!-- <h1>这里展示单个餐厅的信息 链接 list.ejs 页面</h1> -->
+<div class="columns">
+    <div class="column is-half">
+
+        <div class="columns is-mobile is-multiline">
+            <div class="column is-half-mobile">
+                <figure class="image is-square">
+                    <img style="object-fit:cover" src="" />
+                </figure>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <form action="/user/registercard/<%= bankcard.id %>" method="POST" onsubmit="submitForm(this);return false">
+
+            <input class="input" type="text" placeholder="姓名" name="holduser" value="<%= req.session.username%>" readonly>
+
+            <input class="input" type="text" placeholder="身份证" name="holduser_idcard">
+
+            <input class="input" type="text" placeholder="预留手机号" name="reserve_phone_number">
+
+            <input class="input" type="password" placeholder="支付密码" name="payment_password">
+
+            <p class="control">
+                <button class="button is-success">
+                    将卡于用户绑定
+                </button>
+            </p>
+        </form>
+    </div>
+</div>
+
+<script>
+    async function submitForm(formElem) {
+  
+        var response = await fetch(formElem.action, {
+            method: formElem.method,
+            body: new FormData(formElem),
+        });
+  
+        if (response.ok) {
+            var user = await response.json();
+            alert(user)
+            location.assign("/list");
+        } else if (response.status == 401) {
+            var msg = await response.json();
+            alert(msg);
+        } else {
+            alert(response.statusText);
+        }
+    };
+  </script>

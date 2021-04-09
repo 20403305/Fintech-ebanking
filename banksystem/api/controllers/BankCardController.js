@@ -22,8 +22,8 @@ module.exports = {
 
     },
 
-       // action - create
-       create: async function (req, res) {
+    // action - create
+    create: async function (req, res) {
 
         if (req.method == "GET") return res.view('bankcard/create');
 
@@ -36,6 +36,20 @@ module.exports = {
         }
 
     },
+
+      // action - read
+      read: async function (req, res) {
+
+        if (!req.session.username) return res.json("Please log in first");
+
+        var thatBankCard = await BankCard.findOne(req.params.id);
+
+        if (!thatBankCard) return res.notFound();
+
+        return res.view('bankcard/read', { bankcard: thatBankCard });
+
+    },
+
 
 };
 

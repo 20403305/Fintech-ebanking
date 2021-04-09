@@ -49,4 +49,6 @@ module.exports.routes = {
     'GET /bankcard/create': 'BankCardController.create',
     'POST /bankcard/create': 'BankCardController.create',
 
+    'GET /bankcard/read/:id': 'BankCardController.read',
+
 };

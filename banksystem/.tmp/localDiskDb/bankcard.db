@@ -1,4 +1,2 @@
 {"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}
-{"coins":"50000","deal_valid_till":"2021-03-31","createdAt":1617983434104,"updatedAt":1617983434104,"id":1,"region":"深圳","balances":0,"expiry_date":"","payment_password":"","owner":"","owner_idcard":"","reserve_phone_number":0,"_id":1}
-{"region":"广州","coins":"200","deal_valid_till":"2021-04-07","createdAt":1617983620423,"updatedAt":1617983620423,"id":2,"balances":0,"expiry_date":"","payment_password":"","owner":"","owner_idcard":"","reserve_phone_number":0,"_id":2}
-{"region":"深圳","coins":"1000","deal_valid_till":"2021-04-07","createdAt":1617983765394,"updatedAt":1617983765394,"id":3,"balances":0,"expiry_date":"","payment_password":"","owner":"","owner_idcard":"","reserve_phone_number":0,"_id":3}
+{"region":"深圳","balances":5000,"expiry_date":"2021-04-07","createdAt":1617984775737,"updatedAt":1617984775737,"id":4,"payment_password":"","owner":"","owner_idcard":"","reserve_phone_number":0,"_id":4}
