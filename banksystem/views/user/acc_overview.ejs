@@ -1,0 +1,68 @@
+<div class="columns">
+
+    <div class="column is-half">
+
+        <!-- 非ajax请求 -->
+        <form action="/transac/list" method="POST">
+            <!-- ajax请求 -->
+            <!-- <form action="/transac/list" method="POST" onsubmit="submitForm(this);return false"> -->
+            <div class="field">
+                <label class="label">选择账户</label>
+                <div class="control">
+                    <div class="select">
+                        <select name="card_number" id="card_number">
+                            <% var total_bal=0%>
+                                <% users.bankcards.forEach( function(bankcard) { %>
+                                    <option value="<%= bankcard.id %>">卡號：<%= bankcard.id %> 可用餘額<%= bankcard.balances
+                                                %>元</option>
+                                    <% total_bal +=parseFloat(bankcard.balances)%>
+                                        <% }); %>
+                        </select>
+                    </div>
+
+                    <button class="button is-link" type="submit">查询</button>
+                </div>
+            </div>
+        </form>
+
+        总资产：
+        <%= total_bal %>
+
+
+    </div>
+    <div class="columns">
+        <form action="/user/tiedcard/" method="POST" onsubmit="submitForm(this);return false">
+            <div class="field">
+                <label class="label">添加账户</label>
+                <div class="control">
+                    <input class="input" name="new_card_number" id="new_card_number">
+                    <button class="button is-link" type="submit">添加</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<!-- ajax请求 -->
+<script>
+    async function submitForm(formElem) {
+
+        var response = await fetch(formElem.action, {
+            method: formElem.method,
+            body: new FormData(formElem),
+
+        });
+
+        if (response.ok) {
+            var user = await response.json();
+            alert(user);
+            location.reload(true);
+        } else if (response.status == 401) {
+            var msg = await response.json();
+            alert(msg);
+        } else {
+            alert(response.statusText);
+        }
+    };
+</script>

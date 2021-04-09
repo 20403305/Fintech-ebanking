@@ -74,15 +74,6 @@ module.exports = {
         return res.json("Success Create!");
     },
 
-    overview: async function (req, res) {
-        if (!req.session.username) return res.json("Please log in first");
-
-        var user = await User.findOne(req.session.userid).populate("bankcards");
-
-        return res.view('user/acc_overview', { users: user });
-    },
-
-    
     registercard: async function (req, res) {
         if (!req.session.username) return res.json("Please log in first");
 
@@ -103,7 +94,7 @@ module.exports = {
             req.body.payment_password = hash;
 
             //将这张卡与此用户绑定
-            // var updatedcard_info = await BankCard.updateOne(req.params.fk).set({ holduser: req.session.username });
+            // var updatedcard_info = await BankCard.updateOne(req.params.fk).set({ owner: req.session.username });
             var updatedcard_info = await BankCard.updateOne(req.params.fk).set(req.body);
             if (!updatedcard_info) return res.status(404).json("Server error! bug");
 
@@ -113,6 +104,49 @@ module.exports = {
             return res.redirect("/");
 
         }
+    },
+
+
+    overview: async function (req, res) {
+        if (!req.session.username) return res.view('user/login_black', { layout: 'layouts/u_layout' });
+
+        var user = await User.findOne(req.session.userid).populate("bankcards");
+
+        return res.view('user/acc_overview', { users: user });
+    },
+    
+    tiedcard: async function (req, res) {
+        if (!req.session.username) return res.view('user/login_black', { layout: 'layouts/u_layout' });
+        if (req.wantsJSON) {
+
+            //查找是否有这个卡号和所属银行是否正确
+            if (!req.body.new_card_number) return res.status(401).json("请输入卡号");
+
+            var new_card_number = await BankCard.findOne({ id: req.body.new_card_number });
+            if (!new_card_number) return res.status(401).json("没有该卡号");
+
+            //检查这个卡号的持卡人是否是该用户
+            var thatBankCard = await BankCard.findOne(req.body.new_card_number);
+            if (thatBankCard.owner == "") return res.status(401).json("bug--该卡号没有被持卡人");
+
+            //检查这个卡号的持卡人是否是该用户
+            if (new_card_number.owner != req.session.username) return res.status(401).json("卡号绑定的用户信息与您不匹配");
+
+            //检查这个卡号是否绑定过到网上银行的账户
+            var thatBankCard = await BankCard.findOne(new_card_number).populate("creditors");
+            if (thatBankCard.creditors.length > 0)
+                return res.status(401).json("此卡已有绑过网上银行"); // conflict
+
+            //将用户输入的卡号与用户网上银行账户绑定
+            await User.addToCollection(req.session.userid, "bankcards").members(new_card_number.id);
+
+
+            return res.json("Add Success"); // for ajax request
+        } else {
+            return res.redirect("/");
+
+        }
+
     },
 
 

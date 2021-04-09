@@ -51,6 +51,11 @@ module.exports = {
 
     },
 
+    // action - list
+    homepage: async function (req, res) {
+            return res.view('bankcard/homepage');
+    },
+
 
 };
 

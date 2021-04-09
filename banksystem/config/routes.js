@@ -33,7 +33,7 @@ module.exports.routes = {
      *                                                                          *
      ***************************************************************************/
 
-    'GET /': 'BankCardController.list',
+    'GET /': 'BankCardController.homepage',
 
 
     'GET /user/login': 'UserController.login',
@@ -42,7 +42,11 @@ module.exports.routes = {
     'GET /user/signup': 'UserController.signup',
     'POST /user/signup': 'UserController.signup',
 
+
     'POST /user/registercard/:fk': 'UserController.registercard',
+    'GET /user/acc_overview': 'UserController.overview',
+    'POST /user/tiedcard/': 'UserController.tiedcard',
+
 
 
     'GET /list': 'BankCardController.list',
