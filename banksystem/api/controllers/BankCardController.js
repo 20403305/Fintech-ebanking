@@ -20,8 +20,22 @@ module.exports = {
             }
         }
 
+    },
 
+       // action - create
+       create: async function (req, res) {
+
+        if (req.method == "GET") return res.view('bankcard/create');
+
+        if (req.wantsJSON) {
+            var bankcard = await BankCard.create(req.body).fetch();
+
+            return res.json(bankcard.id);
+        } else {
+            return res.redirect('/');			// for normal request
+        }
 
     },
+
 };
 

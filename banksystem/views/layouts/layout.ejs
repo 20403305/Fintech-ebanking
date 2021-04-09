@@ -170,8 +170,8 @@
       if (response.ok) {
         var html = await response.json();
 
-        dynamicCode_menubar_1 = dynamicCode_menubar_1 += '<a class="navbar-item" href="/user/self_info"> 我的信息 </a>';
-        ''
+        dynamicCode_menubar_1 = '<a class="navbar-item" href="/user/self_info"> 我的信息  </a>' +
+          ''
         // '<a class="navbar-item" href="/eat/search"> 查询交易 </a>';
         if (html.userrole == "admin" || html.userrole == "member") {
 
@@ -181,8 +181,8 @@
         }
         if (html.userrole == "admin") {
 
-          dynamicCode_menubar_1 += '<a class="navbar-item" href="/eat/create"> 创建空卡 </a>' +
-            '<a class="navbar-item" href="/eat/list"> 选择卡号 </a>' +
+          dynamicCode_menubar_1 += '<a class="navbar-item" href="/list"> 选择卡号  </a>'+
+          '<a class="navbar-item" href="/bankcard/create"> 创建空卡 </a>' +
             '<a class="navbar-item" href="/eat/admin"> Admin </a>';
         }
         document.querySelector("#menu_bar_1").innerHTML = dynamicCode_menubar_1;

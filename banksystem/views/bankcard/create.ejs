@@ -1,0 +1,91 @@
+<!--create.ejs-->
+<form action="/bankcard/create" method="post" onsubmit="submitForm(this);return false">
+
+    <div class="columns">
+        <div class="column is-half">
+
+            <div class="columns">
+                <div class="column is-one-quarter">
+                    <!-- 创建属性3 -->
+                    <div class="field">
+                        <label class="label">所属地区</label>
+                        <div class="control">
+                            <!-- <input class="input" type="text" name="region" required> -->
+                            <div class="select">
+                                <select onchange="regionSelected(this.value)" name="region" required>
+                                    <option value="深圳">深圳</option>
+                                    <option value="广州">广州</option>
+                                    <option value="东莞">东莞</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <!-- 创建属性7 -->
+                    <div class="field">
+                        <label class="label">余额</label>
+                        <div class="control">
+                            <input class="input" type="number" name="coins" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+
+                    <!-- 创建属性8 -->
+                    <div class="field">
+                        <label class="label">卡有效期</label>
+                        <div class="control">
+                            <input class="input" type="date" name="deal_valid_till" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="column">
+
+                </div>
+            </div>
+
+            <!-- 提交表格 -->
+            <div class="field">
+                <div class="control">
+                    <!-- <button class="button is-link" type="submit">Submit</button> -->
+                    <button class="button is-link">Submit</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="columns">
+    </div>
+
+</form>
+
+
+
+<script>
+    async function submitForm(formElem) {
+        var r = confirm("Confirm create?");
+        if (r) {
+
+            var response = await fetch("/bankcard/create", {
+                method: "POST",
+                body: new FormData(formElem),
+            });
+            if (response.ok) {
+                var html = await response.json();
+                alert("创建成功!  "+'卡号码为 ：' + String(html))
+                location.assign("/list");
+            } else if (response.status == 401) {
+                var msg = await response.json();
+                alert(msg);
+            } else {
+                alert(response.statusText);
+            }
+            console.log("finally")
+        } else {
+            alert("cancelled");
+        }
+    };
+</script>
