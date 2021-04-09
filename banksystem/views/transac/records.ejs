@@ -73,7 +73,7 @@
                             <div class="control">
                                 <!-- <input class="input" type="text" name="region" required> -->
                                 <div class="select">
-                                    <select onchange="regionSelected(this.value)" name="transaction_date"
+                                    <select onchange="regionSelected(this.value)" name="transaction_date">
                                         id="transaction_date">
                                         <option value="近一周">近一周</option>
                                         <option value="近一月">近一月</option>
@@ -90,7 +90,7 @@
                             <div class="control">
                                 <!-- <input class="input" type="text" name="region" required> -->
                                 <div class="select">
-                                    <select onchange="regionSelected(this.value)" name="income_expand"
+                                    <select onchange="regionSelected(this.value)" name="income_expand">
                                         id="income_expand">
                                         <option value="全部">全部</option>
                                         <option value="收入">收入</option>
@@ -237,8 +237,8 @@
                             '</td>';
                     }
 
-                    // dynamicCode_init_list += '<td> <button type="submit" title="Details"> Details </button>' +
-                        dynamicCode_init_list += '<td> <a href="http://www.w3school.com.cn"> Details </button>' +
+                    dynamicCode_init_list += '<td> <button type="submit" title="Details"> Details </button>' +
+                    // dynamicCode_init_list += '<td> <a href="http://www.w3school.com.cn"> Details </button>' +
                         '</td>' +
                         '</tr>' +
                         '</form>';

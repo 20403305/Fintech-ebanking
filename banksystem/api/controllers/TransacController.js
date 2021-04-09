@@ -17,7 +17,7 @@ module.exports = {
 
             if (!user) return res.notFound();
 
-            return res.view('transac/transfer',{users: user,});
+            return res.view('transac/transfer', { users: user, });
 
         }
 
@@ -133,8 +133,8 @@ module.exports = {
 
     },
 
-      // json function
-      records: async function (req, res) {
+    // json function
+    records: async function (req, res) {
 
         // if (!req.session.username) return res.status(404).json("Please log in first");
         if (!req.session.username) return res.view('user/login_black', { layout: 'layouts/u_layout' });
@@ -175,16 +175,153 @@ module.exports = {
         return res.view('transac/records', { curr_card_number: card_number, users: user, hisexpand: every_expand_transac, hisincome: every_income_transac, histransacs: every_transac });
     },
 
-        // json function
-        details: async function (req, res) {
-            if (!req.session.username) return res.json("Please log in first");
-            // 交易纪录
-            if (!req.body.histransac_id) return res.json("系统bug");
-            if (!req.body.curr_card_number) return res.json("系统bug");
-            var one_trading = await Transac.findOne({ id: req.body.histransac_id });
-            return res.view('transac/details', { objtransac: one_trading, curr_card_number: req.body.curr_card_number });
-        },
-    
+    // json function
+    details: async function (req, res) {
+        if (!req.session.username) return res.json("Please log in first");
+        // 交易纪录
+        if (!req.body.histransac_id) return res.json("系统bug");
+        if (!req.body.curr_card_number) return res.json("系统bug");
+        var one_trading = await Transac.findOne({ id: req.body.histransac_id });
+        return res.view('transac/details', { objtransac: one_trading, curr_card_number: req.body.curr_card_number });
+    },
+
+
+    search: async function (req, res) {
+        if (!req.session.username) return res.json("Please log in first");
+        if (!req.body.card_number) return res.json("无卡记录");
+
+        // 默认搜索从句（条件）为空
+        var whereClause = {};
+
+        if (req.body.card_number) whereClause.remittance_card_number = parseInt(req.body.card_number);
+        if (req.body.card_number) whereClause.receiving_card_number = parseInt(req.body.card_number);
+
+
+        if (req.body.opponent_card_number) whereClause.opponent_card_number = parseInt(req.body.opponent_card_number);
+        if (req.body.opponent_name) whereClause.opponent_name = { contains: req.body.opponent_name };
+
+        // 格式有年月日 时分秒
+        function getFormatDate(minus_months, minus_days) {
+            var date = new Date();
+            var month = date.getMonth() + 1 - minus_months;
+            var strDate = date.getDate() - minus_days;
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var currentDate = date.getFullYear() + "-" + month + "-" + strDate +
+                " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+            return currentDate;
+        }
+
+
+        var getchoose_Date;
+
+
+        if (req.body.income_expand) whereClause.income_expand = req.body.income_expand;
+
+
+        if (req.body.transaction_date) {
+            if (req.body.transaction_date == "近一周") getchoose_Date = getFormatDate(0, 7);
+            if (req.body.transaction_date == "近一月") getchoose_Date = getFormatDate(1, 0);
+            if (req.body.transaction_date == "近三月") getchoose_Date = getFormatDate(3, 0);
+            whereClause.transaction_date = { '>=': getchoose_Date };
+        }
+
+
+        var parsedMinCoins = parseInt(req.body.mincoin);
+        var parsedMaxCoins = parseInt(req.body.maxcoin);
+
+        if (!isNaN(parsedMinCoins) && !isNaN(parsedMaxCoins)) whereClause.transaction_amount = { '>=': parsedMinCoins, '<=': parsedMaxCoins };
+        if (!isNaN(parsedMinCoins) && isNaN(parsedMaxCoins)) whereClause.transaction_amount = { '>=': parsedMinCoins };
+        if (isNaN(parsedMinCoins) && !isNaN(parsedMaxCoins)) whereClause.transaction_amount = { '<=': parsedMaxCoins };
+
+        console.log(whereClause)
+
+
+        //如何按时间排序？？？？sort  会出现 以下
+                //         UsageError: Invalid criteria.
+                // Details:
+                //   The provided criteria contains an unrecognized property: 'or'
+                // * * *
+                // In previous versions of Sails/Waterline, this criteria _may_ have worked, since keywords like `limit` were allowed to sit alongside attribute names that are really 
+                // supposed to be wrapped inside of the `where` clause.  But starting in Sails v1.0/Waterline 0.13, if a `limit`, `skip`, `sort`, etc is defined, then any <attribute name> vs. <constraint> pairs should be explicitly contained inside the `where` clause.
+                // * * *
+        //如何按时间排序？？？？sort  会出现 以上
+        if (whereClause.income_expand == "全部") {
+            if (req.body.time_sorting == "由远到近") {
+                var thoseBankCards = await Transac.find({
+                    // ？？？？两个 与 语句 相或 会出现 Error: Consistency violation: where-clause modifier `$gte` is not valid!
+                    // ---- >>>>  https://sailsjs.com/documentation/concepts/models-and-orm/query-language#contains
+                    or: [
+                        { remittance_card_number: whereClause.remittance_card_number, remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name },
+                        { receiving_card_number: whereClause.receiving_card_number, receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name },
+                        // { receiving_card_number: whereClause.receiving_card_number}
+                    ]
+                    //如何按时间排序？？？？sort
+                    // sort: "id DESC"
+                });
+
+            } else {
+                var thoseBankCards = await Transac.find({
+                    or: [
+                        { remittance_card_number: whereClause.remittance_card_number, remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name },
+                        { receiving_card_number: whereClause.receiving_card_number, receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name }
+                    ]
+                });
+            }
+        }
+
+        if (whereClause.income_expand == "收入") {
+            if (req.body.time_sorting == "由远到近") {
+                var thoseBankCards = await Transac.find({
+                    where: { receiving_card_number: whereClause.receiving_card_number, receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name },
+                    sort: [{ 'id': 'ASC' }]
+                });
+            } else {
+                var thoseBankCards = await Transac.find({
+                    where: { receiving_card_number: whereClause.receiving_card_number, receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name },
+                    sort: "id DESC"
+                });
+            }
+        }
+
+        if (whereClause.income_expand == "支出") {
+            if (req.body.time_sorting == "由远到近") {
+                var thoseBankCards = await Transac.find({
+                    where: { remittance_card_number: whereClause.remittance_card_number, remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name },
+                    sort: [{ 'id': 'ASC' }]
+                });
+            } else {
+                var thoseBankCards = await Transac.find({
+                    where: { remittance_card_number: whereClause.remittance_card_number, remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name },
+                    sort: "id DESC"
+                });
+            }
+        }
+
+        // ????? 如何先或 再与
+        // var thoseBankCards = await Transac.find({
+        //     or: [
+        //         { remittance_card_number: whereClause.remittance_card_number },
+        //         { receiving_card_number: whereClause.receiving_card_number },   
+        //     ],
+        //     where:{ transaction_amount: whereClause.transaction_amount }
+        // });
+
+
+        if (req.wantsJSON) {
+
+            return res.json({ histransacs: thoseBankCards, curr_card_number: req.body.card_number });	    // for ajax request
+        } else {
+
+            return res.view('/');
+
+        }
+    },
+
 
 };
 

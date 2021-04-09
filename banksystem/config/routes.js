@@ -64,5 +64,8 @@ module.exports.routes = {
     'POST /transac/records/': 'TransacController.records',
     'POST /transac/details/': 'TransacController.details',
 
-    
+    //查询请求
+    'POST /transac/search/': 'TransacController.search',
+
+
 };
