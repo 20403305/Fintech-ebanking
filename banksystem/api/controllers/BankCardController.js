@@ -9,7 +9,8 @@ module.exports = {
 
     // action - list
     list: async function (req, res) {
-
+        if (!req.session.username) return res.json("Please log in first");
+        
         if (req.method == "GET") {
             var everyones = await BankCard.find();
 

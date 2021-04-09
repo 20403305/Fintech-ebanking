@@ -42,6 +42,8 @@ module.exports.routes = {
     'GET /user/signup': 'UserController.signup',
     'POST /user/signup': 'UserController.signup',
 
+    'POST /user/registercard/:fk': 'UserController.registercard',
+
 
     'GET /list': 'BankCardController.list',
     'POST /list': 'BankCardController.list',

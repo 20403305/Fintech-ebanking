@@ -1,2 +1,3 @@
 {"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}
-{"region":"深圳","balances":5000,"expiry_date":"2021-04-07","createdAt":1617984775737,"updatedAt":1617984775737,"id":4,"payment_password":"","owner":"","owner_idcard":"","reserve_phone_number":0,"_id":4}
+{"createdAt":1617984775737,"updatedAt":1617984775737,"id":4,"region":"深圳","balances":5000,"expiry_date":"2021-04-07","payment_password":"","owner":"","owner_idcard":"","reserve_phone_number":0,"_id":4}
+{"createdAt":1617984775737,"updatedAt":1617985506328,"id":4,"region":"深圳","balances":5000,"expiry_date":"2021-04-07","payment_password":"$2a$10$DE/81CbPcAd/4DCLpYbdy.hh2phINuYAkjVZDm0BavY.Egl5r7S4C","owner":"admin","owner_idcard":"1111","reserve_phone_number":110,"_id":4}

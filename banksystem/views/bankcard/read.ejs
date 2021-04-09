@@ -13,9 +13,9 @@
     <div class="column">
         <form action="/user/registercard/<%= bankcard.id %>" method="POST" onsubmit="submitForm(this);return false">
 
-            <input class="input" type="text" placeholder="姓名" name="holduser" value="<%= req.session.username%>" readonly>
+            <input class="input" type="text" placeholder="姓名" name="owner" value="<%= req.session.username%>" readonly>
 
-            <input class="input" type="text" placeholder="身份证" name="holduser_idcard">
+            <input class="input" type="text" placeholder="身份证" name="owner_idcard">
 
             <input class="input" type="text" placeholder="预留手机号" name="reserve_phone_number">
 
@@ -39,9 +39,9 @@
         });
   
         if (response.ok) {
-            var user = await response.json();
-            alert(user)
-            location.assign("/list");
+            var content = await response.json();
+            alert(content)
+            if(content == 'Registercard Success') location.assign("/list");
         } else if (response.status == 401) {
             var msg = await response.json();
             alert(msg);
