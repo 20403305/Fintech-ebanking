@@ -74,6 +74,45 @@ module.exports = {
         return res.json("Success Create!");
     },
 
+    self_info: async function (req, res) {
+        if (!req.session.username) return res.view('user/login_black', { layout: 'layouts/u_layout' });
+
+        var user = await User.findOne(req.session.userid);
+
+        return res.view('user/self_info', { user: user });
+    },
+    
+    change_password: async function (req, res) {
+        if (!req.session.username) return res.view('user/login_black', { layout: 'layouts/u_layout' });
+
+        if (req.method == "GET") return res.view('user/change_password');
+
+        if (!req.body.old_password) return res.json("请输入旧密码");
+        if (!req.body.old_password_verify) return res.json("请输入验证旧密码");
+        if (!req.body.new_password) return res.json("请输入新密码");
+
+
+
+        var user = await User.findOne(req.session.userid);
+
+        var match = await sails.bcrypt.compare(req.body.old_password, user.password);
+        if (!match) return res.status(401).json("旧密码错误");
+
+        if (req.body.old_password != req.body.old_password_verify) return res.json("两次旧密码输入不一致");
+
+        if (req.body.old_password == req.body.new_password) return res.json("新旧密码一致，请重新设置");
+
+        sails.bcrypt = require('bcryptjs');
+        var salt = await sails.bcrypt.genSalt(10);
+
+        var hash = await sails.bcrypt.hash(req.body.new_password, salt);
+
+        var updated_password = await User.updateOne(req.session.userid).set({ password: hash });
+        if (!updated_password) return res.status(404).json("Server error! bug");
+
+        return res.json('密码修改成功');
+    },
+
     registercard: async function (req, res) {
         if (!req.session.username) return res.json("Please log in first");
 

@@ -47,6 +47,11 @@ module.exports.routes = {
     'GET /user/acc_overview': 'UserController.overview',
     'POST /user/tiedcard/': 'UserController.tiedcard',
 
+    'GET /user/self_info': 'UserController.self_info',
+
+    'GET /user/change_password': 'UserController.change_password',
+    'POST /user/change_password': 'UserController.change_password',
+
 
 
     'GET /list': 'BankCardController.list',
