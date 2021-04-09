@@ -24,6 +24,7 @@ module.exports = {
         if (!req.session.username) {
             req.session.username = user.username;
             req.session.userid = user.id
+            req.session.userrole = user.role
             return res.json(user);
         }
 
@@ -34,6 +35,7 @@ module.exports = {
 
             req.session.username = user.username;
             req.session.userid = user.id
+            req.session.userrole = user.role
             return res.json(user);
         });
     },
@@ -41,7 +43,7 @@ module.exports = {
     logout: async function (req, res) {
         req.session.destroy(function (err) {
             if (err) return res.serverError(err);
-            return res.json("Logout Success");
+            return res.redirect("/");
         });
     },
 

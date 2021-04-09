@@ -33,11 +33,14 @@ module.exports.routes = {
      *                                                                          *
      ***************************************************************************/
 
-    'GET /': 'UserController.login',
+    'GET /': 'BankCardController.list',
 
-    
+
     'GET /user/login': 'UserController.login',
     'POST /user/login': 'UserController.login',
     'POST /user/logout': 'UserController.logout',
+
+    'GET /list': 'BankCardController.list',
+    'POST /list': 'BankCardController.list',
 
 };

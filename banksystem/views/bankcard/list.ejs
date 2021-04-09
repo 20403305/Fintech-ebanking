@@ -1,0 +1,93 @@
+<% var region_list=["深圳", "广州", "东莞"] %>
+
+    <!-- 第一列 -->
+<div class="columns">
+    <div class="column is-one-third">
+        <% bankcards.forEach( function(bankcard) { %>
+        <% if (bankcard.region == region_list[0]) { %>
+        <!-- <div class="column is-half-mobile card"> -->
+        <div class="column is-mobile card">
+            <header class="card-header">
+                <p class="card-header-title">
+
+                    <%= bankcard.region %>
+                </p>
+            </header>
+            <div class="content">
+                <p> <a href=" /bankcard/read/<%= bankcard.id %> ">
+                        <content style="font-size: x-large ;"> 卡号 ： <%= bankcard.id %></content>
+                    </a> </p>
+                <content>持卡人 ：<%= bankcard.owner %></content>
+                <br>
+                <br>
+                <p> 余额 : <%= bankcard.balances %></p>
+
+            </div>
+
+        </div>
+        <br>
+        <% } %>
+        <% }); %>
+    </div>
+
+    <!-- 第二列 -->
+    <div class="column">
+        <% bankcards.forEach( function(bankcard) { %>
+        <% if (bankcard.region == region_list[1]) { %>
+        <!-- <div class="column is-half-mobile card"> -->
+        <div class="column is-mobile card">
+            <header class="card-header">
+                <p class="card-header-title">
+
+                    <%= bankcard.region %>
+                </p>
+            </header>
+
+            <div class="content">
+                <p> <a href=" /bankcard/read/<%= bankcard.id %> ">
+                        <content style="font-size: x-large ;">卡号 ： <%= bankcard.id %></content>
+                    </a> </p>
+                <content>持卡人 ：<%= bankcard.owner %></content>
+                <br>
+                <br>
+                <p> 余额 : <%= bankcard.balances %></p>
+
+            </div>
+
+        </div>
+        <br>
+        <% } %>
+        <% }); %>
+
+    </div>
+
+    <!-- 第三列 -->
+    <div class="column">
+        <% bankcards.forEach( function(bankcard) { %>
+        <% if (bankcard.region == region_list[2]) { %>
+        <!-- <div class="column is-half-mobile card"> -->
+        <div class="column is-mobile card">
+            <header class="card-header">
+                <p class="card-header-title">
+
+                    <%= bankcard.region %>
+                </p>
+            </header>
+            <div class="content">
+                <p> <a href=" /bankcard/read/<%= bankcard.id %> ">
+                        <content style="font-size: x-large ;">卡号 ： <%= bankcard.id %></content>
+                    </a> </p>
+                <content>持卡人 ：<%= bankcard.owner %></content>
+                <br>
+                <br>
+                <p> 余额 : <%= bankcard.balances %></p>
+
+            </div>
+
+        </div>
+        <br>
+        <% } %>
+        <% }); %>
+
+    </div>
+</div>

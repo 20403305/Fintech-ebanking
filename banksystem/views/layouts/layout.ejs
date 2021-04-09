@@ -2,16 +2,16 @@
 <html>
 
 <head>
-    <title>New Sails App</title>
+  <title>New Sails App</title>
 
-    <!-- Viewport mobile tag for sensible mobile support -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- Viewport mobile tag for sensible mobile support -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <%/* If you want to discourage search engines from indexing this site, uncomment the following line: */%>
-        <%/* <meta name="robots" content="noindex"> */%>
+  <% /* If you want to discourage search engines from indexing this site, uncomment the following line: */%>
+    <% /* <meta name="robots" content="noindex"> */%>
 
 
-            <!--
+      <!--
         Stylesheets and Preprocessors
         ==============================
 
@@ -32,99 +32,61 @@
             + Use a different or additional preprocessor, like SASS, SCSS or Stylus
     -->
 
-            <!--STYLES-->
-            <link rel="stylesheet" href="/styles/importer.css">
-            <link rel="stylesheet" href="/styles/style.css">
-            <!--STYLES END-->
+      <!--STYLES-->
+      <link rel="stylesheet" href="/styles/importer.css">
+      <link rel="stylesheet" href="/styles/style.css">
+      <!--STYLES END-->
 
-            <!-- 使用Bulma，添加Bulma CSS框架 -->
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+      <!-- 使用Bulma，添加Bulma CSS框架 -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
 </head>
 
 <body>
-    <section class="section">
 
-        <!-- 导航栏 -->
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item" href="https://bulma.io">
-                    <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-                </a>
 
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
+  <section class="section">
+    <!-- 导航栏 -->
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+          <img src="/images/logo.png" width="112" height="28">
+        </a>
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+          data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start" id="menu_bar_1">
+          123
+        </div>
+
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons" id="menu_bar_2">
+              456
             </div>
-
-            <div id="navbarBasicExample" class="navbar-menu">
-                <div class="navbar-start">
-                  <a class="navbar-item" href="/coupon/list">
-                    Home
-                  </a>
-          
-                  <a class="navbar-item" href="/coupon/aginate">
-                    Search
-                  </a>
-          
-          
-                  <a class="navbar-item" href="/coupon/create" id="Create">
-                    Create
-                  </a>
-                  <a class="navbar-item" href="/coupon/admin" id="Admin">
-                    Admin
-                  </a>
-                  <a class="navbar-item" id="MyRedeemedCoupons">
-          
-                  </a>
-                  <div class="navbar-dropdown"></div>
-          
-          
-                  <hr class="navbar-divider">
-          
-                </div>
-              </div>
-              </div>
-          
-              <div class="navbar-end">
-                <div class="navbar-item" id="reset">
-                  <div class="buttons">
-                    <a class="button is-primary" id="Signup">
-                      <strong>Sign up</strong>
-                    </a>
-                    <a class="button is-light" href="/user/login" id="Login">
-                      Log in
-                    </a>
-                    <!-- <a class="button is-light" href="user/logout" id="Logout" onclick="logout()">
-                      Log out
-                    </a> -->
-                  </div>
-                </div>
-              </div>
-              </div>
-            </nav>
-            <section class="section">
-              <div class="container columns is-mobile">
-                <div class="column ">
-                  <div class="columns">
-                    <div class="column is-half">
-                      <div style="font-size: 40px;font-family: sans-serif;"><strong>Q-Pon</strong></div>
-                      <div style="font-size: 20px;font-family: sans-serif;">Redeem your coins for dining coupons.</div>
-                    </div>
-                    <div class="column">
-          
-                    </div>
-                  </div>
-                  <%- body %>
-          
-                </div>
-              </div>
-            </section>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div>
+      <strong style="font-size: xx-large;">Banking</strong>
+      <p>e-Banking</p>
+    </div>
+    <br>
+    <br>
 
 
 
-    <!--
+    <%- body %>
+
+  </section>
+
+
+  <!--
         Client-side Templates
         ========================
 
@@ -145,11 +107,11 @@
               stringfile before they're served.
     -->
 
-    <!--TEMPLATES-->
-    <!--TEMPLATES END-->
+  <!--TEMPLATES-->
+  <!--TEMPLATES END-->
 
 
-    <!--
+  <!--
         Server-side View Locals
         ========================
 
@@ -165,7 +127,7 @@
     -->
 
 
-    <!--
+  <!--
 
       Client-side Javascript
       ========================
@@ -188,77 +150,72 @@
 
     -->
 
-    <!--SCRIPTS-->
-    <script src="/dependencies/sails.io.js"></script>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/three.min.js"></script>
-    <!--SCRIPTS END-->
+  <!--SCRIPTS-->
+  <script src="/dependencies/sails.io.js"></script>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/three.min.js"></script>
+  <!--SCRIPTS END-->
 
 
-    <!-- 在网页种使用fontawesome字体 -->
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  <!-- 在网页种使用fontawesome字体 -->
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+
+  <script>
+    async function ajaxconfirmuser() {
+
+      var response = await fetch("/list/", {
+        method: "POST",
+      });
+      if (response.ok) {
+        var html = await response.json();
+
+        dynamicCode_menubar_1 = '<a class="navbar-item" href="/eat/list"> 选择卡号 </a>' +
+          ''
+        // '<a class="navbar-item" href="/eat/search"> 查询交易 </a>';
+        if (html.userrole == "admin" || html.userrole == "member") {
+
+          dynamicCode_menubar_1 += '<a class="navbar-item" href="/user/' + parseInt(html.userid) + '/coupons"> 转账汇款 </a>';
+          dynamicCode_menubar_1 += '<a class="navbar-item" href="/user/acc_overview"> 账户总览 </a>';
+          dynamicCode_menubar_1 += '<a class="navbar-item" href="/user/self_info"> 我的信息 </a>';
+        }
+        if (html.userrole == "admin") {
+
+          dynamicCode_menubar_1 += '<a class="navbar-item" href="/eat/create"> 创建空卡 </a>' +
+            '<a class="navbar-item" href="/eat/admin"> Admin </a>';
+        }
+        document.querySelector("#menu_bar_1").innerHTML = dynamicCode_menubar_1;
+
+        if (!html.userid) {
+          dynamicCode_menubar_2 = '<a class="button is-primary" href="/user/signup">' +
+            '<strong>Sign up</strong>' +
+            '</a>' +
+            '<a class="button is-light" href="/user/login">' +
+            'Log in' +
+            '</a>';
+        } else {
+          dynamicCode_menubar_2 = 'Hi  ' + html.username +
+            '<form action="/user/logout" method="post">' +
+            '<button class="button is-link" type="submit">Logout</button>' +
+            '</form>';
+        }
+
+        document.querySelector("#menu_bar_2").innerHTML = dynamicCode_menubar_2;
+
+
+
+
+      } else {
+        alert(response.status + ": " + response.statusText);
+        var msg = await response.json();
+        alert(msg);
+      }
+    };
+
+    ajaxconfirmuser();
+  </script>
 
 
 </body>
 
 </html>
-
-<script>
-    async function setNew() {
-      var req = new Request("/getSession", { method: "GET", })
-      await fetch(req).then(function (response) {
-        return response.json();
-      }).then(function (json) {
-        session = json.session;
-        console.log(session);
-        console.log(session.username);
-        return session;
-      })
-      if (session.role) {
-        if (session.role == 'admin') {
-          MyRedeemedCoupons.style.display = "none";
-          var reset = document.getElementById("reset");
-          console.log(reset);
-          var dynamicCode = '<p class="control">' + 'Hi, ' + session.username + '</p>';
-          dynamicCode += '<p class="control" id="LogOut"><a class="button is-light href="user/logout" onclick="logout()"><span>Logout</span></a></p>';
-          reset.innerHTML = dynamicCode;
-        }
-        else if (session.role == 'member') {
-          Create.style.display = "none";
-          Admin.style.display = "none";
-          var reset = document.getElementById("reset");
-          var dynamicCode = '<p class="control">' + 'Hi, ' + session.username + '</p>';
-          dynamicCode += '<p class="control" id="LogOut"><a class="button is-light href="user/logout" onclick="logout()"><span>Logout</span></a></p>';
-          MyRedeemedCoupons.innerHTML = '<a class="navbar-item" href="/user/' + parseInt(session.userid) + '/clients"> My Redeemed Coupons </a>';
-          reset.innerHTML = dynamicCode;
-        }
-        else {
-          Create.style.display = "none";
-          Admin.style.display = "none";
-          MyRedeemedCoupons.style.display = "none";
-        }
-      }
-  
-    }
-    async function logout() {
-      var r = confirm("Confirm Logout?");
-  
-      if (r) {
-        var response = await fetch("/person/logout", {
-          method: "POST"
-        });
-  
-        if (response.ok) {
-          // var html = await response.text();
-          // alert(html);
-          alert("logout.");
-          location.assign("/");
-        } else {
-          alert(response.status + ": " + response.statusText);
-        }
-  
-      }
-    }
-     setNew()
-  
-  </script>
