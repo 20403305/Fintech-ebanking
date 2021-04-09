@@ -37,6 +37,11 @@ module.exports = {
         //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
         //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
+        bankcards: {
+            collection: 'BankCard',
+            via: 'creditors'
+        },
+
     },
 
     customToJSON: function() {

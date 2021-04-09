@@ -1,5 +1,5 @@
 /**
- * Card.js
+ * Transac.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
@@ -13,36 +13,59 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
-    // 属性1
-    region: {
-      type: "string"
-    },
-
-    // 属性2
-    balances: {
+    remittance_card_number: {
       type: "number"
     },
 
-    // 属性3
-    expiry_date: {
-      type: "string"
+    remittance_account: {
+      type: "number"
     },
-    // 属性4
-    payment_password: {
+
+    remittance_name: {
       type: "string"
     },
 
-    // 属性5
-    owner: {
+    remittance_time: {
       type: "string"
     },
-    // 属性6
-    owner_idcard: {
-      type: "string"
-    },
-    // 属性7
-    reserve_phone_number: {
+
+    remittance_balance: {
       type: "number"
+    },
+
+    receiving_card_number: {
+      type: "number"
+    },
+
+    receiving_account: {
+      type: "number"
+    },
+
+    receiving_name: {
+      type: "string"
+    },
+    receiving_time: {
+      type: "string"
+    },
+
+    receiving_balance: {
+      type: "number"
+    },
+
+    transaction_amount: {
+      type: "number"
+    },
+
+    business_summary: {
+      type: "string"
+    },
+
+    Trading_channel: {
+      type: "string"
+    },
+
+    postscript: {
+      type: "string"
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -53,11 +76,6 @@ module.exports = {
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
-
-    creditors: {
-      collection: 'User',
-      via: 'bankcards'
-  },
 
   },
 

@@ -1,6 +1,4 @@
 {"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}
 {"$$indexCreated":{"fieldName":"username","unique":true,"sparse":false}}
-{"createdAt":1617980654118,"updatedAt":1617980654118,"id":5,"username":"admin","password":"$2a$10$gTOJZs.QD1iw3vkOkrk7y.k1.qfQJCvsT9hc6T0fH.Dk5QYBYgR6m","role":"admin","_id":5}
-{"createdAt":1617980654118,"updatedAt":1617980654118,"id":6,"username":"Kenny","password":"$2a$10$gTOJZs.QD1iw3vkOkrk7y.k1.qfQJCvsT9hc6T0fH.Dk5QYBYgR6m","role":"member","_id":6}
-{"createdAt":1617980754176,"updatedAt":1617980754176,"id":7,"username":"suyuxin","password":"$2a$10$rKNBhBjE7L.gXjKlsbjaJOlErtHl2hv.XrOW9GcOSZJWDTjgEfGvW","role":"member","_id":7}
-{"username":"admin2","password":"$2a$10$Ps1Zm7o.dWSqlml62qA9VO07B6A.TNrrZOLtaTaTp/QbuLVfmHgoq","role":"member","createdAt":1617980841639,"updatedAt":1617980841639,"id":8,"_id":8}
+{"createdAt":1617981899882,"updatedAt":1617981899882,"id":9,"username":"admin","password":"$2a$10$N3UXw/O8KBMb.xIaMcltNuXpjkn7U8FE83UVRcLfUgShzlfnp1.me","role":"admin","_id":9}
+{"createdAt":1617981899882,"updatedAt":1617981899882,"id":10,"username":"Kenny","password":"$2a$10$N3UXw/O8KBMb.xIaMcltNuXpjkn7U8FE83UVRcLfUgShzlfnp1.me","role":"member","_id":10}

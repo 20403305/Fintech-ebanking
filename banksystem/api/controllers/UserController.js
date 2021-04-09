@@ -74,4 +74,13 @@ module.exports = {
         return res.json("Success Create!");
     },
 
+    overview: async function (req, res) {
+        if (!req.session.username) return res.json("Please log in first");
+
+        var user = await User.findOne(req.session.userid).populate("bankcards");
+
+        return res.view('user/acc_overview', { users: user });
+    },
+
+
 };
