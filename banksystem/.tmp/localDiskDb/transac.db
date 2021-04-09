@@ -1,1 +1,2 @@
 {"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}
+{"remittance_card_number":7,"remittance_account":20403305,"remittance_name":"member","remittance_time":"2021-04-10 1:15:18","remittance_balance":51999.5,"receiving_card_number":6,"receiving_name":"admin","receiving_time":"2021-04-10 1:15:18","receiving_balance":5000.5,"transaction_amount":0.5,"business_summary":"小额汇款","Trading_channel":"网上银行","postscript":"","createdAt":1617988518796,"updatedAt":1617988518796,"id":1,"receiving_account":0,"_id":1}

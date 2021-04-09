@@ -37,7 +37,7 @@
             var info = await response.json();
             // location.reload(true);
             alert(info)
-            location.assign("/list");
+            location.assign("/user/login");
         } else if (response.status == 401) {
             var msg = await response.json();
             alert(msg);

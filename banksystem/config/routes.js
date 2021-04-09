@@ -57,4 +57,9 @@ module.exports.routes = {
 
     'GET /bankcard/read/:id': 'BankCardController.read',
 
+    //转账请求
+    'GET /transac/transfer/': 'TransacController.transfer',
+    'POST /transac/transfer/': 'TransacController.transfer',
+
+
 };

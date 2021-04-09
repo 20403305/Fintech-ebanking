@@ -1,0 +1,88 @@
+ <!--index.ejs-->
+        <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+
+            <% users.bankcards.forEach( function(bankcard) { %>
+                <tr>
+                    <td>
+                        卡號：
+                        <%= bankcard.id %>
+                    </td>
+                    <td>
+                        餘額：
+                        <%= bankcard.balances %>
+                    </td>
+                    <td>
+                        所属银行：
+                        <%= bankcard.region %>
+                    </td>
+                </tr>
+                <% }); %>
+
+        </table>
+
+        <div class="container columns is-centered">
+            <div class="column is-half">
+
+                <form action="/transac/transfer/" method="POST" onsubmit="submitForm(this);return false">
+
+                    <input class="input" type="text" placeholder="收款姓名" name="receiving_name">
+
+                    <input class="input" type="text" placeholder="收款卡號" name="receiving_card_number">
+
+                    <input class="input" type="text" placeholder="收款銀行" name="receiving_bank">
+
+                    <input class="input" type="text" placeholder="匯款金額" name="remittance_amount">
+
+                    <input class="input" type="text" placeholder="匯款時間" name="remittance_time">
+
+                    <div class="field">
+                        <label class="label">匯款賬號</label>
+                        <div class="control">
+                            <div class="select">
+                                <select onchange="regionSelected(this.value)" name="payment_card_number"
+                                    id="payment_card_number">
+                                    <% users.bankcards.forEach( function(bankcard) { %>
+                                        <option value="<%= bankcard.id %>">卡號：<%= bankcard.id %> 可用餘額<%= bankcard.balances %>元</option>
+                                        <% }); %>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input class="input" type="text" placeholder="附言" name="postscript">
+
+                    <input class="input" type="password" placeholder="支付密码" name="payment_password">
+
+                    <p class="control">
+                        <button class="button is-success">
+                            下一步
+                        </button>
+                    </p>
+                </form>
+            </div>
+
+
+        </div>
+        </div>
+
+
+        <script>
+            async function submitForm(formElem) {
+
+                var response = await fetch(formElem.action, {
+                    method: formElem.method,
+                    body: new FormData(formElem),
+                });
+
+                if (response.ok) {
+                    var user = await response.json();
+                    alert(user);
+                    location.assign("/user/acc_overview/");
+                } else if (response.status == 401) {
+                    var msg = await response.json();
+                    alert(msg);
+                } else {
+                    alert(response.statusText);
+                }
+            };
+        </script>
