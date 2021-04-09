@@ -47,4 +47,31 @@ module.exports = {
         });
     },
 
+    signup: async function (req, res) {
+
+        if (req.method == "GET") return res.view('user/signup', { layout: 'layouts/signup_layout' });
+
+        if (!req.body.username || !req.body.password) return res.badRequest();
+
+        var user = await User.findOne({ username: req.body.username });
+
+        if (user) return res.status(401).json("Username have been used");
+
+        var signup_username = req.body.username;
+        var signup_password = req.body.password;
+
+
+        sails.bcrypt = require('bcryptjs');
+        var salt = await sails.bcrypt.genSalt(10);
+
+        var hash = await sails.bcrypt.hash(signup_password, salt);
+
+        await User.createEach([
+            { username: signup_username, password: hash, role: "member"},
+            // etc.
+        ]);
+
+        return res.json("Success Create!");
+    },
+
 };
