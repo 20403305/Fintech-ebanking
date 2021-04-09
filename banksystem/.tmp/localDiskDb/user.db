@@ -1,0 +1,4 @@
+{"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}
+{"$$indexCreated":{"fieldName":"username","unique":true,"sparse":false}}
+{"createdAt":1617975755716,"updatedAt":1617975755716,"id":1,"username":"admin","password":"$2a$10$QXhKc46ketr8LaXxQ7KUgu.1hDb37tMFIZ.DbalyeqJDZWIcvYwxu","role":"admin","_id":1}
+{"createdAt":1617975755716,"updatedAt":1617975755716,"id":2,"username":"Kenny","password":"$2a$10$QXhKc46ketr8LaXxQ7KUgu.1hDb37tMFIZ.DbalyeqJDZWIcvYwxu","role":"member","_id":2}

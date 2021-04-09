@@ -12,18 +12,22 @@ module.exports = {
         //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
         //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
         //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
+  
         username: {
-            type: "string"
+            type: 'string',
+            unique: true,
+            required: true
         },
 
         password: {
             type: "string"
         },
+
         role: {
-            type: "string",
+            type: 'string',
             isIn: ['admin', 'member', 'visitor'],
-            // defaultsTo: "member"
-          },
+            defaultsTo: 'visitor'
+        },
         //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
         //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
         //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝

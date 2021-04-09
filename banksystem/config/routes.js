@@ -32,22 +32,12 @@ module.exports.routes = {
      * not match any of those, it is matched against static assets.             *
      *                                                                          *
      ***************************************************************************/
-    'GET /person/create': 'PersonController.create',
-    'POST /person/create': 'PersonController.create',
 
-    'GET /': 'PersonController.list',
-    // 'GET /person': 'PersonController.list',
-    'GET /person': 'PersonController.login',
-    'GET /person/list': 'PersonController.list',
-    'GET /person/login': 'PersonController.login',
-    'GET /person/json': 'PersonController.json',
-    'GET /person/read/:id': 'PersonController.read',
+    'GET /': 'UserController.login',
 
-    'POST /person/delete/:id': 'PersonController.delete',
-
-    'POST /person/login': 'PersonController.login',
-    'POST /person/logout': 'PersonController.logout',
-    'GET /person/logout': 'PersonController.logout',
-    'GET /getSession': 'PersonController.getSession',
+    
+    'GET /user/login': 'UserController.login',
+    'POST /user/login': 'UserController.login',
+    'POST /user/logout': 'UserController.logout',
 
 };

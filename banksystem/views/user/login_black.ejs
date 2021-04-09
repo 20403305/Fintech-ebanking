@@ -175,7 +175,7 @@
 </head>
 
 <body>
-    <form action="/person/login" method="POST" onsubmit="submitForm(this);return false">
+    <form action="/user/login" method="POST" onsubmit="submitForm(this);return false">
         <div class="main">
             <div class="login">
                 <div class="log-con">
@@ -191,6 +191,11 @@
             </div>
         </div>
     </form>
+
+    <form action="/user/logout" method="POST" onsubmit="submitForm(this);return false">
+        <button>logout</button>
+    </form>
+
     <!-- <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/three.min.js"></script>
 <script type="text/javascript" src="http://github.com/mrdoob/three.js"></script> -->
@@ -366,9 +371,8 @@
 
                     if (response.ok) {
                         var user = await response.json();
-                        // alert("Welcome back, " + user.username);
-                        // location.reload(true);
-                        location.assign("/person/list");
+                        alert(user)
+                        location.assign("/");
                     } else if (response.status == 401) {
                         var msg = await response.json();
                         alert(msg);
@@ -377,9 +381,6 @@
                     }
                 };
             </script>
-            <!-- <div style="text-align:center;">
-                <p>更多源码：<a href="http://www.mycodes.net/" target="_blank">源码之家</a></p>
-            </div> -->
 </body>
 
 </html>
