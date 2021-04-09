@@ -1,0 +1,259 @@
+卡号 : <%= curr_card_number %>
+
+    <div class="columns">
+
+        <!-- 第一列 -->
+        <div class="column is-half" id="his_record">
+            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>业务摘要</th>
+                        <th>交易时间</th>
+                        <th>交易金额</th>
+                        <th>余额</th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% histransacs.forEach( function(histransac) { %>
+                        <form action="/transac/details/" method="POST">
+                            <tr>
+                                <input type="hidden" name="histransac_id" value="<%= histransac.id %>">
+                                <input type="hidden" name="curr_card_number" value="<%= curr_card_number %>">
+                                <th>
+                                    <%= histransac.id %>
+                                </th>
+                                <td>
+                                    <%= histransac.business_summary %>
+                                </td>
+                                <% if (histransac.remittance_card_number==curr_card_number) { %>
+                                    <td>
+                                        <%= histransac.remittance_time %>
+                                    </td>
+                                    <td>-
+                                        <%= histransac.transaction_amount %>
+                                    </td>
+                                    <td>
+                                        <%= histransac.remittance_balance %>
+                                    </td>
+
+                                    <% }else{%>
+                                        <td>
+                                            <%= histransac.receiving_time %>
+                                        </td>
+                                        <td>+
+                                            <%= histransac.transaction_amount %>
+                                        </td>
+                                        <td>
+                                            <%= histransac.receiving_balance %>
+                                        </td>
+                                        <% }%>
+                                            <td><button type="submit" title="Details">Details</button>
+                                            </td>
+                            </tr>
+                        </form>
+                        <% }); %>
+                </tbody>
+            </table>
+        </div>
+
+        <form action="/transac/search/" method="POST" onsubmit="submitForm(this);return false">
+            <!-- 第二列 -->
+            <div class="column">
+
+                <!-- 第二列第一行 -->
+                <div class="columns">
+
+
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">交易日期</label>
+                            <div class="control">
+                                <!-- <input class="input" type="text" name="region" required> -->
+                                <div class="select">
+                                    <select onchange="regionSelected(this.value)" name="transaction_date"
+                                        id="transaction_date">
+                                        <option value="近一周">近一周</option>
+                                        <option value="近一月">近一月</option>
+                                        <option value="近三月">近三月</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">收支</label>
+                            <div class="control">
+                                <!-- <input class="input" type="text" name="region" required> -->
+                                <div class="select">
+                                    <select onchange="regionSelected(this.value)" name="income_expand"
+                                        id="income_expand">
+                                        <option value="全部">全部</option>
+                                        <option value="收入">收入</option>
+                                        <option value="支出">支出</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">时间排序</label>
+                            <div class="control">
+                                <!-- <input class="input" type="text" name="region" required> -->
+                                <div class="select">
+                                    <select onchange="regionSelected(this.value)" name="time_sorting" id="time_sorting">
+                                        <option value="由近到远">由近到远</option>
+                                        <option value="由远到近">由远到近</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">对方账户</label>
+                            <div class="control">
+                                <input class="input" name="opponent_card_number" id="opponent_card_number">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">对方名称</label>
+                            <div class="control">
+                                <input class="input" name="opponent_name" id="opponent_name">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 第二列第二行 -->
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">Min Coins</label>
+                            <div class="control">
+                                <input class="input" type="number" name="mincoin" id="mincoin">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">Max Coins</label>
+                            <div class="control">
+                                <input class="input" type="number" name="maxcoin" id="maxcoin">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第二列第三行 -->
+                <div class="columns">
+                    <div class="column is-10">
+                        <input class="input" type="hidden" name="card_number" id="card_number"
+                            value="<%= curr_card_number %>">
+                    </div>
+                    <div class="column ">
+                        <div class="field">
+                            <p class="control">
+                                <button class="button is-success">
+                                    确定
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+
+
+                </div>
+        </form>
+
+    </div>
+
+
+    <script>
+        async function submitForm(formElem) {
+
+            var response = await fetch(formElem.action, {
+                method: formElem.method,
+                body: new FormData(formElem),
+            });
+
+            if (response.ok) {
+                var html = await response.json();
+
+                dynamicCode_init_list = '<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">' +
+                    '<thead> <tr>' +
+                    '<th>ID</th>' +
+                    '<th>业务摘要</th>' +
+                    '<th>交易时间</th>' +
+                    '<th>交易金额</th>' +
+                    '<th>余额</th>' +
+                    '<th></th>' +
+                    '</tr></thead>';
+                dynamicCode_init_list += '<tbody>';
+
+                html.histransacs.forEach(function (histransac) {
+
+                    dynamicCode_init_list += '<form action="/transac/details/" method="POST">' +
+                        '<tr>' +
+                        '<input type="hidden" name="histransac_id" value="' + String(histransac.id) + '">' +
+                        '<input type="hidden" name="curr_card_number" value="' + String(html.curr_card_number) + '">' +
+                        '<th>' +
+                        String(histransac.id) +
+                        '</th>' +
+                        '<td>' +
+                        String(histransac.business_summary) +
+                        '</td>';
+
+                    if (histransac.remittance_card_number == html.curr_card_number) {
+                        dynamicCode_init_list += '<td>' +
+                            String(histransac.remittance_time) +
+                            '</td>' +
+                            '<td>-'+
+                        String(histransac.transaction_amount) +
+                            '</td>' +
+                            '<td>' +
+                            String(histransac.remittance_balance) +
+                            '</td>';
+
+                    } else {
+                        dynamicCode_init_list += '<td>' +
+                            String(histransac.receiving_time) +
+                            '</td>' +
+                            '<td>+'+
+                        String(histransac.transaction_amount) +
+                            '</td>' +
+                            '<td>' +
+                            String(histransac.receiving_balance) +
+                            '</td>';
+                    }
+
+                    // dynamicCode_init_list += '<td> <button type="submit" title="Details"> Details </button>' +
+                        dynamicCode_init_list += '<td> <a href="http://www.w3school.com.cn"> Details </button>' +
+                        '</td>' +
+                        '</tr>' +
+                        '</form>';
+                });
+
+                dynamicCode_init_list += '</tbody> </table>'
+
+                console.log(dynamicCode_init_list)
+                document.querySelector("#his_record").innerHTML = dynamicCode_init_list;
+
+            } else if (response.status == 401) {
+                var msg = await response.json();
+                alert(msg);
+            } else {
+                alert(response.statusText);
+            }
+        };
+    </script>

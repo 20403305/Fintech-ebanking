@@ -133,5 +133,47 @@ module.exports = {
 
     },
 
+      // json function
+      records: async function (req, res) {
+
+        // if (!req.session.username) return res.status(404).json("Please log in first");
+        if (!req.session.username) return res.view('user/login_black', { layout: 'layouts/u_layout' });
+
+
+        if (!req.body.card_number) return res.json("请选择卡号");
+
+        // 默认搜索从句（条件）为空
+        var expenditure = {};
+        var incomerecord = {};
+
+        var card_number = parseInt(req.body.card_number);
+        // 支出交易纪录
+        if (req.body.card_number) expenditure.remittance_card_number = card_number;
+        var every_expand_transac = await Transac.find({
+            where: expenditure,
+            sort: 'remittance_time DESC'
+        });
+
+        // 收入交易纪录
+        if (req.body.card_number) incomerecord.receiving_card_number = card_number;
+        var every_income_transac = await Transac.find({
+            where: incomerecord,
+            sort: 'receiving_time DESC'
+        });
+
+        // //总纪录
+        var every_transac = await Transac.find({
+            or: [
+                { remittance_card_number: card_number },
+                { receiving_card_number: card_number }
+            ]
+        });
+
+        var user = await User.findOne(req.session.userid).populate("bankcards");
+
+
+        return res.view('transac/records', { curr_card_number: card_number, users: user, hisexpand: every_expand_transac, hisincome: every_income_transac, histransacs: every_transac });
+    },
+
 };
 
