@@ -1,5 +1,5 @@
 {"$$indexCreated":{"fieldName":"id","unique":true,"sparse":false}}
 {"$$indexCreated":{"fieldName":"username","unique":true,"sparse":false}}
-{"username":"admin","password":"$2a$10$2Srcsx0PLmXKaluRYQg0nuAGuUe3hMN6GB0o6ekhkSQQbeoIjnnou","role":"admin","createdAt":1617989107045,"updatedAt":1617989107045,"id":18,"_id":18}
-{"username":"Kenny","password":"$2a$10$2Srcsx0PLmXKaluRYQg0nuAGuUe3hMN6GB0o6ekhkSQQbeoIjnnou","role":"member","createdAt":1617989107045,"updatedAt":1617989107045,"id":19,"_id":19}
-{"username":"suyuxin","password":"$2a$10$ajJUmiE9WghnBHvVQp//uewORIaBhrxdYc5.Re94Nby2iH7Pslerm","role":"member","createdAt":1617989159477,"updatedAt":1617989159477,"id":20,"_id":20}
+{"createdAt":1617989107045,"updatedAt":1617989107045,"id":18,"username":"admin","password":"$2a$10$2Srcsx0PLmXKaluRYQg0nuAGuUe3hMN6GB0o6ekhkSQQbeoIjnnou","role":"admin","_id":18}
+{"createdAt":1617989107045,"updatedAt":1617989107045,"id":19,"username":"Kenny","password":"$2a$10$2Srcsx0PLmXKaluRYQg0nuAGuUe3hMN6GB0o6ekhkSQQbeoIjnnou","role":"member","_id":19}
+{"createdAt":1617989159477,"updatedAt":1617989159477,"id":20,"username":"suyuxin","password":"$2a$10$ajJUmiE9WghnBHvVQp//uewORIaBhrxdYc5.Re94Nby2iH7Pslerm","role":"member","_id":20}

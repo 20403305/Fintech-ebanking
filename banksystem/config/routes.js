@@ -62,5 +62,7 @@ module.exports.routes = {
     'POST /transac/transfer/': 'TransacController.transfer',
 
     'POST /transac/records/': 'TransacController.records',
+    'POST /transac/details/': 'TransacController.details',
 
+    
 };

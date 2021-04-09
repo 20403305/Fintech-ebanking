@@ -175,5 +175,16 @@ module.exports = {
         return res.view('transac/records', { curr_card_number: card_number, users: user, hisexpand: every_expand_transac, hisincome: every_income_transac, histransacs: every_transac });
     },
 
+        // json function
+        details: async function (req, res) {
+            if (!req.session.username) return res.json("Please log in first");
+            // 交易纪录
+            if (!req.body.histransac_id) return res.json("系统bug");
+            if (!req.body.curr_card_number) return res.json("系统bug");
+            var one_trading = await Transac.findOne({ id: req.body.histransac_id });
+            return res.view('transac/details', { objtransac: one_trading, curr_card_number: req.body.curr_card_number });
+        },
+    
+
 };
 
