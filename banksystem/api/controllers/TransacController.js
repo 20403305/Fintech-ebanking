@@ -192,10 +192,12 @@ module.exports = {
 
         // 默认搜索从句（条件）为空
         var whereClause = {};
-
+ 
         if (req.body.card_number) whereClause.remittance_card_number = parseInt(req.body.card_number);
         if (req.body.card_number) whereClause.receiving_card_number = parseInt(req.body.card_number);
 
+        console.log(typeof (req.body.opponent_card_number))
+        console.log(typeof (req.body.opponent_name))
 
         if (req.body.opponent_card_number) whereClause.opponent_card_number = parseInt(req.body.opponent_card_number);
         if (req.body.opponent_name) whereClause.opponent_name = { contains: req.body.opponent_name };
@@ -227,7 +229,7 @@ module.exports = {
             if (req.body.transaction_date == "近一周") getchoose_Date = getFormatDate(0, 7);
             if (req.body.transaction_date == "近一月") getchoose_Date = getFormatDate(1, 0);
             if (req.body.transaction_date == "近三月") getchoose_Date = getFormatDate(3, 0);
-            whereClause.transaction_date = { '>=': getchoose_Date, '<=':  getFormatDate(0, 0)};
+            whereClause.transaction_date = { '>=': getchoose_Date, '<=': getFormatDate(0, 0) };
         }
 
 
@@ -251,7 +253,7 @@ module.exports = {
         // * * *
         console.log({ remittance_card_number: whereClause.remittance_card_number, remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name });
         console.log({ receiving_card_number: whereClause.receiving_card_number, receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name });
-        
+
         //如何按时间排序？？？？sort  会出现 以上
         if (whereClause.income_expand == "全部") {
             if (req.body.time_sorting == "由远到近") {
@@ -260,8 +262,8 @@ module.exports = {
                     // ---- >>>>  https://sailsjs.com/documentation/concepts/models-and-orm/query-language#contains
                     where: {
                         or: [
-                            { remittance_card_number: whereClause.remittance_card_number,remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount,  receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name },
-                            { receiving_card_number: whereClause.receiving_card_number,receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name },
+                            { remittance_card_number: whereClause.remittance_card_number, remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name },
+                            { receiving_card_number: whereClause.receiving_card_number, receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name },
                             // { receiving_card_number: whereClause.receiving_card_number }
                         ]
                     },
@@ -274,8 +276,8 @@ module.exports = {
                 var thoseBankCards = await Transac.find({
                     where: {
                         or: [
-                            { remittance_card_number: whereClause.remittance_card_number,remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount,  receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name },
-                            { receiving_card_number: whereClause.receiving_card_number,receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name },
+                            { remittance_card_number: whereClause.remittance_card_number, remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name },
+                            { receiving_card_number: whereClause.receiving_card_number, receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name },
                             // { receiving_card_number: whereClause.receiving_card_number }
                         ]
                     },

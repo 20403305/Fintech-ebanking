@@ -4,59 +4,112 @@
 
         <!-- 第一列 -->
         <div class="column is-half" id="his_record">
-            <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>业务摘要</th>
-                        <th>交易时间</th>
-                        <th>交易金额</th>
-                        <th>余额</th>
-                        <th>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% histransacs.forEach( function(histransac) { %>
-                        <form action="/transac/details/" method="POST">
-                            <tr>
-                                <input type="hidden" name="histransac_id" value="<%= histransac.id %>">
-                                <input type="hidden" name="curr_card_number" value="<%= curr_card_number %>">
-                                <th>
-                                    <%= histransac.id %>
-                                </th>
-                                <td>
-                                    <%= histransac.business_summary %>
-                                </td>
-                                <% if (histransac.remittance_card_number==curr_card_number) { %>
-                                    <td>
-                                        <%= histransac.remittance_time %>
-                                    </td>
-                                    <td>-
-                                        <%= histransac.transaction_amount %>
-                                    </td>
-                                    <td>
-                                        <%= histransac.remittance_balance %>
-                                    </td>
 
-                                    <% }else{%>
+            <div class="columns">
+                <div class="column is-1">ID</div>
+                <div class="column is-2">业务<br>摘要</div>
+                <div class="column is-3">交易时间</div>
+                <div class="column is-2">交易<br>金额</div>
+                <div class="column is-2">余额</div>
+            </div>
+
+            <% histransacs.forEach( function(histransac) { %>
+                <form class="columns" action="/transac/details/" method="POST">
+
+                    <div class="column is-1">
+                        <%= histransac.id %>
+                            <input type="hidden" name="histransac_id" value="<%= histransac.id %>" />
+                            <input type="hidden" name="curr_card_number" value="<%= curr_card_number %>" />
+                    </div>
+                    <div class="column is-2">
+                        <%= histransac.business_summary %>
+                    </div>
+                    <% if (histransac.remittance_card_number==curr_card_number) { %>
+                        <div class="column is-3">
+                            <%= histransac.remittance_time %>
+                        </div>
+                        <div class="column is-2">-<%= histransac.transaction_amount %>
+                        </div>
+                        <div class="column is-2">
+                            <%= histransac.remittance_balance %>
+                        </div>
+                        <% } else { %>
+                            <div class="column is-3">
+                                <%= histransac.receiving_time %>
+                            </div>
+                            <div class="column is-2">+<%= histransac.transaction_amount %>
+                            </div>
+                            <div class="column is-2">
+                                <%= histransac.receiving_balance %>
+                            </div>
+                            <% }%>
+                                <div class="column is-2">
+                                    <button type="submit" title="Details">Details</button>
+                                </div>
+
+                </form>
+                <% }); %>
+
+
+                    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>业务摘要</th>
+                                <th>交易时间</th>
+                                <th>交易金额</th>
+                                <th>余额</th>
+                                <th>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% histransacs.forEach( function(histransac) { %>
+
+                                <tr>
+
+                                    <th>
+                                        <%= histransac.id %>
+                                    </th>
+                                    <td>
+                                        <%= histransac.business_summary %>
+                                    </td>
+                                    <% if (histransac.remittance_card_number==curr_card_number) { %>
                                         <td>
-                                            <%= histransac.receiving_time %>
+                                            <%= histransac.remittance_time %>
                                         </td>
-                                        <td>+
+                                        <td>-
                                             <%= histransac.transaction_amount %>
                                         </td>
                                         <td>
-                                            <%= histransac.receiving_balance %>
+                                            <%= histransac.remittance_balance %>
                                         </td>
-                                        <% }%>
-                                            <td><button type="submit" title="Details">Details</button>
+
+                                        <% }else{%>
+                                            <td>
+                                                <%= histransac.receiving_time %>
                                             </td>
-                            </tr>
-                        </form>
-                        <% }); %>
-                </tbody>
-            </table>
+                                            <td>+
+                                                <%= histransac.transaction_amount %>
+                                            </td>
+                                            <td>
+                                                <%= histransac.receiving_balance %>
+                                            </td>
+                                            <% }%>
+                                                <td>
+                                                    <form action="/transac/details/" method="POST">
+                                                        <input type="hidden" name="histransac_id"
+                                                            value="<%= histransac.id %>">
+                                                        <input type="hidden" name="curr_card_number"
+                                                            value="<%= curr_card_number %>">
+                                                        <button type="submit" title="Details">Details</button>
+
+                                                    </form>
+                                                </td>
+                                </tr>
+                                <% }); %>
+                        </tbody>
+                    </table>
         </div>
 
         <form action="/transac/search/" method="POST" onsubmit="submitForm(this);return false">
@@ -120,7 +173,8 @@
                         <div class="field">
                             <label class="label">对方账户</label>
                             <div class="control">
-                                <input class="input" name="opponent_card_number" id="opponent_card_number">
+                                <input class="input" type="number" name="opponent_card_number"
+                                    id="opponent_card_number">
                             </div>
                         </div>
                     </div>
@@ -218,8 +272,8 @@
                         dynamicCode_init_list += '<td>' +
                             String(histransac.remittance_time) +
                             '</td>' +
-                            '<td>-'+
-                        String(histransac.transaction_amount) +
+                            '<td>-' +
+                            String(histransac.transaction_amount) +
                             '</td>' +
                             '<td>' +
                             String(histransac.remittance_balance) +
@@ -229,8 +283,8 @@
                         dynamicCode_init_list += '<td>' +
                             String(histransac.receiving_time) +
                             '</td>' +
-                            '<td>+'+
-                        String(histransac.transaction_amount) +
+                            '<td>+' +
+                            String(histransac.transaction_amount) +
                             '</td>' +
                             '<td>' +
                             String(histransac.receiving_balance) +
@@ -238,7 +292,7 @@
                     }
 
                     dynamicCode_init_list += '<td> <button type="submit" title="Details"> Details </button>' +
-                    // dynamicCode_init_list += '<td> <a href="http://www.w3school.com.cn"> Details </button>' +
+                        // dynamicCode_init_list += '<td> <a href="http://www.w3school.com.cn"> Details </button>' +
                         '</td>' +
                         '</tr>' +
                         '</form>';

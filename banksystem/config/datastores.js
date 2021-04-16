@@ -48,8 +48,19 @@ module.exports.datastores = {
     *    (See https://sailsjs.com/config/datastores for help.)                 *
     *                                                                          *
     ***************************************************************************/
-    // adapter: 'sails-mysql',
-    // url: 'mysql://user:password@host:port/database',
+    //  安装 npm install sails-mysql --save
+    // 安装mysql  https://www.runoob.com/mysql/mysql-install.html
+    // 修改密码    // https://blog.csdn.net/Brighter_Xiao/article/details/51556532
+    // 创建用户https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql
+
+    // 权限设置 https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server
+   
+    // 远程登录Mysql https://blog.csdn.net/helloxiaozhe/article/details/76229074
+
+    // winpty 启动
+
+    adapter: 'sails-mysql',
+    url: 'mysql://allen:20403305@localhost:3306/ebank',
 
   },
 

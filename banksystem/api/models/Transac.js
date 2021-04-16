@@ -14,7 +14,7 @@ module.exports = {
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
     remittance_card_number: {
-      type: "number"
+      type: "string"
     },
 
     remittance_account: {
@@ -34,7 +34,7 @@ module.exports = {
     },
 
     receiving_card_number: {
-      type: "number"
+      type: "string"
     },
 
     receiving_account: {
