@@ -227,7 +227,7 @@ module.exports = {
             if (req.body.transaction_date == "近一周") getchoose_Date = getFormatDate(0, 7);
             if (req.body.transaction_date == "近一月") getchoose_Date = getFormatDate(1, 0);
             if (req.body.transaction_date == "近三月") getchoose_Date = getFormatDate(3, 0);
-            whereClause.transaction_date = { '>=': getchoose_Date };
+            whereClause.transaction_date = { '>=': getchoose_Date, '<=':  getFormatDate(0, 0)};
         }
 
 
@@ -235,41 +235,53 @@ module.exports = {
         var parsedMaxCoins = parseInt(req.body.maxcoin);
 
         if (!isNaN(parsedMinCoins) && !isNaN(parsedMaxCoins)) whereClause.transaction_amount = { '>=': parsedMinCoins, '<=': parsedMaxCoins };
-        if (!isNaN(parsedMinCoins) && isNaN(parsedMaxCoins)) whereClause.transaction_amount = { '>=': parsedMinCoins };
-        if (isNaN(parsedMinCoins) && !isNaN(parsedMaxCoins)) whereClause.transaction_amount = { '<=': parsedMaxCoins };
+        if (!isNaN(parsedMinCoins) && isNaN(parsedMaxCoins)) whereClause.transaction_amount = { '>=': parsedMinCoins, '<=': Number.MAX_VALUE };
+        if (isNaN(parsedMinCoins) && !isNaN(parsedMaxCoins)) whereClause.transaction_amount = { '<=': parsedMaxCoins, '>=': Number.MIN_VALUE };
 
-        console.log(whereClause)
+        // console.log(whereClause)
 
 
         //如何按时间排序？？？？sort  会出现 以下
-                //         UsageError: Invalid criteria.
-                // Details:
-                //   The provided criteria contains an unrecognized property: 'or'
-                // * * *
-                // In previous versions of Sails/Waterline, this criteria _may_ have worked, since keywords like `limit` were allowed to sit alongside attribute names that are really 
-                // supposed to be wrapped inside of the `where` clause.  But starting in Sails v1.0/Waterline 0.13, if a `limit`, `skip`, `sort`, etc is defined, then any <attribute name> vs. <constraint> pairs should be explicitly contained inside the `where` clause.
-                // * * *
+        //         UsageError: Invalid criteria.
+        // Details:
+        //   The provided criteria contains an unrecognized property: 'or'
+        // * * *
+        // In previous versions of Sails/Waterline, this criteria _may_ have worked, since keywords like `limit` were allowed to sit alongside attribute names that are really 
+        // supposed to be wrapped inside of the `where` clause.  But starting in Sails v1.0/Waterline 0.13, if a `limit`, `skip`, `sort`, etc is defined, then any <attribute name> vs. <constraint> pairs should be explicitly contained inside the `where` clause.
+        // * * *
+        console.log({ remittance_card_number: whereClause.remittance_card_number, remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name });
+        console.log({ receiving_card_number: whereClause.receiving_card_number, receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name });
+        
         //如何按时间排序？？？？sort  会出现 以上
         if (whereClause.income_expand == "全部") {
             if (req.body.time_sorting == "由远到近") {
                 var thoseBankCards = await Transac.find({
                     // ？？？？两个 与 语句 相或 会出现 Error: Consistency violation: where-clause modifier `$gte` is not valid!
                     // ---- >>>>  https://sailsjs.com/documentation/concepts/models-and-orm/query-language#contains
-                    or: [
-                        { remittance_card_number: whereClause.remittance_card_number, remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name },
-                        { receiving_card_number: whereClause.receiving_card_number, receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name },
-                        // { receiving_card_number: whereClause.receiving_card_number}
-                    ]
+                    where: {
+                        or: [
+                            { remittance_card_number: whereClause.remittance_card_number,remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount,  receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name },
+                            { receiving_card_number: whereClause.receiving_card_number,receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name },
+                            // { receiving_card_number: whereClause.receiving_card_number }
+                        ]
+                    },
                     //如何按时间排序？？？？sort
-                    // sort: "id DESC"
+                    sort: "createdAt ASC"
+                    // sort: "id ASC"
                 });
 
             } else {
                 var thoseBankCards = await Transac.find({
-                    or: [
-                        { remittance_card_number: whereClause.remittance_card_number, remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name },
-                        { receiving_card_number: whereClause.receiving_card_number, receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name }
-                    ]
+                    where: {
+                        or: [
+                            { remittance_card_number: whereClause.remittance_card_number,remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount,  receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name },
+                            { receiving_card_number: whereClause.receiving_card_number,receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name },
+                            // { receiving_card_number: whereClause.receiving_card_number }
+                        ]
+                    },
+                    //如何按时间排序？？？？sort
+                    sort: "createdAt DESC"
+                    // sort: "id ASC"
                 });
             }
         }
