@@ -51,7 +51,9 @@
                 <% }); %>
 
 
-                    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                    <!-- table里面不能放表单 -->
+
+                    <!-- <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -109,7 +111,7 @@
                                 </tr>
                                 <% }); %>
                         </tbody>
-                    </table>
+                    </table> -->
         </div>
 
         <form action="/transac/search/" method="POST" onsubmit="submitForm(this);return false">

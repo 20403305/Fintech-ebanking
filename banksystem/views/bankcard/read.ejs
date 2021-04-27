@@ -13,7 +13,8 @@
     <div class="column">
         <form action="/user/registercard/<%= bankcard.id %>" method="POST" onsubmit="submitForm(this);return false">
 
-            <input class="input" type="text" placeholder="姓名" name="owner" value="<%= req.session.username%>" readonly>
+            <!-- <input class="input" type="text" placeholder="姓名" name="owner" value="<%= req.session.username%>" readonly> -->
+            <input class="input" type="text" placeholder="姓名" name="owner" value="">
 
             <input class="input" type="text" placeholder="身份证" name="owner_idcard">
 
@@ -23,7 +24,7 @@
 
             <p class="control">
                 <button class="button is-success">
-                    将卡于用户绑定
+                    将卡与用户绑定
                 </button>
             </p>
         </form>

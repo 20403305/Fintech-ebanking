@@ -17,8 +17,12 @@ module.exports = {
 
             if (!user) return res.notFound();
 
+            if (req.wantsJSON) {
+                return res.json(user); 
+            }else{
             return res.view('transac/transfer', { users: user, });
-
+        }
+            
         }
 
         if (req.wantsJSON) {
@@ -49,7 +53,9 @@ module.exports = {
 
             //检查汇款账户的balances够不够 和 检查卡号的支付密码是否正确
             if (!req.body.remittance_amount) return res.status(401).json("请输入汇款金额");
-            var curr_payment_card_number = await BankCard.findOne({ id: req.body.payment_card_number });
+
+            if (!req.body.payment_card_number) return res.status(401).json("请输入汇款账户");
+            var curr_payment_card_number = await BankCard.findOne({ id: parseInt(req.body.payment_card_number) });
             if (!curr_payment_card_number) return res.status(401).json("卡号not found-->系统bug");
 
             var match = await sails.bcrypt.compare(req.body.payment_password, curr_payment_card_number.payment_password);
@@ -57,7 +63,7 @@ module.exports = {
             // if (curr_payment_card_number.payment_password != req.body.payment_password) return res.status(401).json("支付密码错误");
 
 
-            if (req.body.remittance_amount > curr_payment_card_number.balances) return res.status(401).json("账户余额不足");
+            if (parseFloat(req.body.remittance_amount) > parseFloat(curr_payment_card_number.balances)) return res.status(401).json("账户余额不足");
 
             //扣除相应的汇款账户的balances
             var payment_card_number_curr_balances = parseFloat(curr_payment_card_number.balances) - parseFloat(req.body.remittance_amount);
@@ -171,22 +177,45 @@ module.exports = {
 
         var user = await User.findOne(req.session.userid).populate("bankcards");
 
+        if (req.wantsJSON){
+            var whereClause = {};
+            whereClause.curr_card_number = card_number;
+            whereClause.users = user;
+            whereClause.hisexpand = every_expand_transac;
+            whereClause.hisincome = every_income_transac;
+            whereClause.histransacs = every_transac;
+            return res.json(whereClause);
+        }else{
 
         return res.view('transac/records', { curr_card_number: card_number, users: user, hisexpand: every_expand_transac, hisincome: every_income_transac, histransacs: every_transac });
+    }
     },
 
     // json function
     details: async function (req, res) {
         if (!req.session.username) return res.json("Please log in first");
         // 交易纪录
-        if (!req.body.histransac_id) return res.json("系统bug");
-        if (!req.body.curr_card_number) return res.json("系统bug");
+        if (!req.body.histransac_id) return res.json("系统bug1");
+        if (!req.body.curr_card_number) return res.json("系统bug2");
         var one_trading = await Transac.findOne({ id: req.body.histransac_id });
+
+        if (req.wantsJSON){
+            var whereClause = {};
+            whereClause.objtransac = one_trading;
+            whereClause.curr_card_number = req.body.curr_card_number;
+            return res.json(whereClause);
+        }else{
         return res.view('transac/details', { objtransac: one_trading, curr_card_number: req.body.curr_card_number });
+        }
     },
 
 
     search: async function (req, res) {
+
+        if (req.wantsJSON) {
+
+            // console.log(req.body.transaction_date)
+
         if (!req.session.username) return res.json("Please log in first");
         if (!req.body.card_number) return res.json("无卡记录");
 
@@ -326,7 +355,7 @@ module.exports = {
         // });
 
 
-        if (req.wantsJSON) {
+
 
             return res.json({ histransacs: thoseBankCards, curr_card_number: req.body.card_number });	    // for ajax request
         } else {

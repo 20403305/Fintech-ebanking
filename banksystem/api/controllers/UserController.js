@@ -148,10 +148,16 @@ module.exports = {
 
     overview: async function (req, res) {
         if (!req.session.username) return res.view('user/login_black', { layout: 'layouts/u_layout' });
-
+        if (req.wantsJSON) {
         var user = await User.findOne(req.session.userid).populate("bankcards");
 
-        return res.view('user/acc_overview', { users: user });
+        return res.json(user);
+        }
+        else{
+            var user = await User.findOne(req.session.userid).populate("bankcards");
+
+            return res.view('user/acc_overview', { users: user });
+        }
     },
     
     tiedcard: async function (req, res) {

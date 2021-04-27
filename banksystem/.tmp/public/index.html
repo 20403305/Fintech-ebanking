@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stock Lookup</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/luxon@1.26.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.1/dist/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0"></script>
+    <script src="https://www.chartjs.org/chartjs-chart-financial/chartjs-chart-financial.js"
+        type="text/javascript"></script>
+    <style>
+        #marketnewsgeneral {
+            max-height: 30vh;
+            overflow: auto;
+        }
+
+        #marketnewsforex {
+            max-height: 30vh;
+            overflow: auto;
+        }
+
+        #marketnewscrypto {
+            max-height: 30vh;
+            overflow: auto;
+        }
+
+        #marketnewsmerger {
+            max-height: 30vh;
+            overflow: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Market News
+            </h1>
+
+            <div class="columns">
+                <div class="column">
+                    General
+                    <div id="marketnewsgeneral"></div>
+                </div>
+                <div class="column">
+                    Foreign Exchange
+                    <div id="marketnewsforex"></div>
+                </div>
+                <div class="column">
+                    Cryptocurrency
+                    <div id="marketnewscrypto"></div>
+                </div>
+                <div class="column">
+                    Merger and Acquisition
+                    <div id="marketnewsmerger"></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Stock Data
+            </h1>
+
+            <div class="columns">
+                <div class="column is-three-quarters">
+                    <canvas id="myChart"></canvas>
+                    <button class="button is-primary" onclick="exportData();">Export data</button>
+                </div>
+                <div class="column">
+                    <div class="field has-addons">
+                        <div class="control">
+                            <datalist id="symbols"></datalist>
+                            <input class="input" type="text" placeholder="Stock symbol" oninput="findSymbol(this.value)"
+                                list="symbols" id="input">
+                        </div>
+                        <div class="control">
+                            <button class="button is-info"
+                                onclick="companyProfile(document.getElementById('input').value);">
+                                SearchView
+                            </button>
+                        </div>
+                    </div>
+
+                    <dl id="profile"></dl>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h1 class="title">
+                Candlestick
+            </h1>
+
+            <canvas id="myCandleChart"></canvas>
+        </div>
+    </section>
+
+    <script>
+
+        let wSocket;
+
+        async function marketNews(type) {
+            const response = await fetch("https://finnhub.io/api/v1/news?category=" + type + "&token=c0n56d748v6v1q0c1ph0")
+            return response.json();
+        }
+
+        (async function () {
+            let general = document.getElementById('marketnewsgeneral');
+            general.innerHTML = '';
+            let generaldata = await marketNews('general');
+            generaldata.forEach(function (news) {
+                general.innerHTML += `
+<div class="card mb-3">
+	<div class="card-image">
+		<figure class="image is-4by3">
+		<img src="${news.image}" alt="${news.headline}">
+		</figure>
+	</div>
+	<div class="card-content">
+		<div class="media">
+			<div class="media-content">
+				<p class="title is-4">${news.headline}</p>
+				<p class="subtitle is-6">${news.source}</p>
+			</div>
+		</div>
+		<div class="content">
+			<p>${news.summary}</p>
+			<time datetime="${new Date(news.datetime * 1000).toISOString()}">${new Date(news.datetime * 1000).toDateString()}</time>
+		</div>
+	</div>
+</div>`;
+            });
+
+            let forexMarket = document.getElementById('marketnewsforex');
+            forexMarket.innerHTML = '';
+            let forexdata = await marketNews('forex');
+            forexdata.forEach(function (news) {
+                forexMarket.innerHTML += `
+<div class="card mb-3">
+	<div class="card-image">
+		<figure class="image is-4by3">
+		<img src="${news.image}" alt="${news.headline}">
+		</figure>
+	</div>
+	<div class="card-content">
+		<div class="media">
+			<div class="media-content">
+				<p class="title is-4">${news.headline}</p>
+				<p class="subtitle is-6">${news.source}</p>
+			</div>
+		</div>
+		<div class="content">
+			<p>${news.summary}</p>
+			<time datetime="${new Date(news.datetime * 1000).toISOString()}">${new Date(news.datetime * 1000).toDateString()}</time>
+		</div>
+	</div>
+</div>`;
+            });
+
+            let crypto = document.getElementById('marketnewscrypto');
+            crypto.innerHTML = '';
+            let cryptodata = await marketNews('crypto');
+            cryptodata.forEach(function (news) {
+                crypto.innerHTML += `
+<div class="card mb-3">
+	<div class="card-image">
+		<figure class="image is-4by3">
+		<img src="${news.image}" alt="${news.headline}">
+		</figure>
+	</div>
+	<div class="card-content">
+		<div class="media">
+			<div class="media-content">
+				<p class="title is-4">${news.headline}</p>
+				<p class="subtitle is-6">${news.source}</p>
+			</div>
+		</div>
+		<div class="content">
+			<p>${news.summary}</p>
+			<time datetime="${new Date(news.datetime * 1000).toISOString()}">${new Date(news.datetime * 1000).toDateString()}</time>
+		</div>
+	</div>
+</div>`;
+            });
+
+            let merger = document.getElementById('marketnewsmerger');
+            merger.innerHTML = '';
+            let mergerdata = await marketNews('merger');
+            mergerdata.forEach(function (news) {
+                merger.innerHTML += `
+<div class="card mb-3">
+	<div class="card-image">
+		<figure class="image is-4by3">
+		<img src="${news.image}" alt="${news.headline}">
+		</figure>
+	</div>
+	<div class="card-content">
+		<div class="media">
+			<div class="media-content">
+				<p class="title is-4">${news.headline}</p>
+				<p class="subtitle is-6">${news.source}</p>
+			</div>
+		</div>
+		<div class="content">
+			<p>${news.summary}</p>
+			<time datetime="${new Date(news.datetime * 1000).toISOString()}">${new Date(news.datetime * 1000).toDateString()}</time>
+		</div>
+	</div>
+</div>`;
+            });
+        })();
+
+        async function companyProfile(text) {
+            if (document.querySelector(`option[value="${text}"]`)) {
+                const response = await fetch("https://finnhub.io/api/v1/stock/profile2?symbol=" + encodeURI(text) + "&token=c0n56d748v6v1q0c1ph0");
+                if (response.ok) {
+                    const data = await response.json();
+                    let profile = document.getElementById('profile');
+                    profile.innerHTML = '';
+                    for (let d in data) {
+                        if (d == 'logo') {
+                            profile.innerHTML += `<dt class="title is-6">${d}</dt><dd class="subtitle is-6"><img src="${data[d]}" alt="logo" /></dd>`;
+                        } else {
+                            profile.innerHTML += `<dt class="title is-6">${d}</dt><dd class="subtitle is-6">${data[d]}</dd>`;
+                        }
+                    }
+                }
+
+                fetchCandleData(text);
+
+                if (wSocket) {
+                    wSocket.close();
+                }
+                wSocket = new WebSocket("wss://ws.finnhub.io?token=c0n56d748v6v1q0c1ph0");
+                wSocket.onopen = function () {
+                    wSocket.send(`{"type":"subscribe","symbol":"${text}"}`);
+                };
+                wSocket.onmessage = function (event) {
+                    console.log(event);
+                    if (event.type == 'message' && JSON.parse(event.data).data) {
+                        let d = JSON.parse(event.data).data[0];
+                        if (d) {
+                            // let volumeData = myChart.data.datasets[0].data;
+                            // volumeData.push({ x: d.t, y: d.v });
+
+                            let priceData = myChart.data.datasets[1].data;
+                            priceData.push({ x: d.t, y: d.p });
+
+                            let samples = 12;
+                            let smaData = myChart.data.datasets[2].data;
+                            if (priceData.length > samples) {
+                                let x = new Date().getTime();
+                                let y = priceData.slice(priceData.length - samples - 1).map(function (item) { return item.y }).reduce(function (a, c) { return (a + c) / 2 });
+                                smaData.push({ x: x, y: y });
+                            }
+
+                            myChart.update();
+                        }
+                    }
+                }
+
+                return;
+            }
+        }
+
+        async function findSymbol(text) {
+            if (text && text.length > 3) {
+
+                const response = await fetch("https://finnhub.io/api/v1/search?q=" + encodeURI(text) + "&token=c0n56d748v6v1q0c1ph0");
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+                    let datalist = document.getElementById('symbols');
+                    datalist.innerHTML = '';
+                    data.result.forEach(function (stock) {
+                        datalist.innerHTML += `<option value="${stock.symbol}">${stock.displaySymbol}  ${stock.description}</option>`
+                    });
+                }
+            }
+        }
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                datasets: [{
+                    type: 'bar',
+                    label: 'volume',
+                    data: [],
+                    borderWidth: 1
+                }, {
+                    type: 'line',
+                    label: 'price',
+                    backgroundColor: 'red',
+                    borderColor: 'red',
+                    data: [],
+                    borderWidth: 1
+                }, {
+                    type: 'line',
+                    label: 'Moving Average',
+                    data: [],
+                    borderWidth: 1
+                }
+                ]
+            },
+
+            options: {
+                responsive: true,
+                scales: {
+                    xAxes: {
+                        type: 'timeseries',
+                        display: true,
+                    },
+                    yAxes: {
+                        beginAtZero: false
+                    }
+                },
+            }
+        });
+
+        var myCandleChart = new Chart(document.getElementById('myCandleChart').getContext('2d'), {
+            type: 'candlestick',
+            data: {
+                datasets: [{
+                    label: 'Price Candle',
+                    data: []
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    xAxes: {
+                        type: 'timeseries',
+                        display: true,
+                        afterBuildTicks: function () { }
+                    },
+                    yAxes: {
+                        beginAtZero: false
+                    }
+                },
+            }
+        });
+
+        async function fetchCandleData(symbol) {
+            let f = Math.round(new Date().getTime() / 1000 - 3600 * 24 * 30);
+            let t = Math.round(new Date().getTime() / 1000);
+            const response = await fetch('https://finnhub.io/api/v1/stock/candle?symbol=' + symbol + '&resolution=1&from=' + f + '&to=' + t + '&token=c0n56d748v6v1q0c1ph0')
+            let data = await response.json();
+            //console.log(data);
+
+            let candleData = myCandleChart.data.datasets[0].data;
+            if (data.c) {
+                data.c.forEach(function (c, i) {
+                    let d = { t: data.t[i] * 1000, o: data.o[i], h: data.h[i], l: data.l[i], c: c };
+                    candleData.push(d);
+                    console.log(d);
+                });
+                myCandleChart.update();
+            }
+        }
+
+        function exportData() {
+            var content = JSON.stringify(myChart.config.data.labels.map(function (v, i) {
+                return { time: v, price: myChart.config.data.datasets[0].data[i] };
+            }));
+            window.open(encodeURI('data:applicantion/json;name=export.json;base64,' + btoa(content)))
+        }
+
+    </script>
+</body>
+
+</html>
