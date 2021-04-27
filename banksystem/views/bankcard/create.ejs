@@ -26,7 +26,8 @@
                     <div class="field">
                         <label class="label">余额</label>
                         <div class="control">
-                            <input class="input" type="number" name="balances" required>
+                            <input class="input" type="text" name="balances_show" id="balances_show">
+                            <input class="input" type="hidden" name="balances" id="balances">
                         </div>
                     </div>
                 </div>
@@ -62,6 +63,33 @@
 
 </form>
 
+
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+</script>
+<script type="text/javascript">
+
+$("#balances_show").bind('input propertychange',function () {
+var a = document.querySelector("#balances_show").value
+// console.log(a)
+a = String(a)
+// console.log(a)
+// 如果想去掉所以的','，最简单的办法就是正则表达式了。下面是简单的例子。
+a = a.replace(/,/g,'');
+a = a.replace(/￥/g,'');
+// a = a.replace(/:/g,'');
+// a = parseFloat(a).toFixed(2)
+a = Number(a)
+// console.log(a)
+document.querySelector("#balances").value = a;
+if (a==0)  document.querySelector("#balances").value = "";
+// console.log(a)
+document.querySelector("#balances_show").value = '￥ '+ String(parseFloat(a).toLocaleString());
+
+
+});
+
+
+</script> 
 
 
 <script>
