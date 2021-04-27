@@ -28,19 +28,19 @@
                         <div class="column is-3">
                             <%= histransac.remittance_time %>
                         </div>
-                        <div class="column is-2">-<%= histransac.transaction_amount %>
+                        <div class="column is-2"><font color="green">- ￥<%= parseFloat(histransac.transaction_amount).toLocaleString() %></font>
                         </div>
-                        <div class="column is-2">
-                            <%= histransac.remittance_balance %>
+                        <div class="column is-2">￥
+                            <%= parseFloat(histransac.remittance_balance).toLocaleString() %>
                         </div>
                         <% } else { %>
                             <div class="column is-3">
                                 <%= histransac.receiving_time %>
                             </div>
-                            <div class="column is-2">+<%= histransac.transaction_amount %>
+                            <div class="column is-2"><font color="red">+ ￥<%= parseFloat(histransac.transaction_amount).toLocaleString() %> </font>
                             </div>
-                            <div class="column is-2">
-                                <%= histransac.receiving_balance %>
+                            <div class="column is-2">￥
+                                <%= parseFloat(histransac.receiving_balance).toLocaleString() %>
                             </div>
                             <% }%>
                                 <div class="column is-2">
@@ -198,7 +198,8 @@
                         <div class="field">
                             <label class="label">Min Coins</label>
                             <div class="control">
-                                <input class="input" type="number" name="mincoin" id="mincoin">
+                                <input class="input" type="hidden" name="mincoin" id="mincoin">
+                                <input class="input" type="text" name="min_show" id="min_show">
                             </div>
                         </div>
                     </div>
@@ -206,7 +207,8 @@
                         <div class="field">
                             <label class="label">Max Coins</label>
                             <div class="control">
-                                <input class="input" type="number" name="maxcoin" id="maxcoin">
+                                <input class="input" type="hidden" name="maxcoin" id="maxcoin">
+                                <input class="input" type="text" name="max_show" id="max_show">
                             </div>
                         </div>
                     </div>
@@ -235,6 +237,52 @@
     </div>
 
 
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+    </script>
+<script type="text/javascript">
+
+    $("#max_show").bind('input propertychange',function () {
+    var a = document.querySelector("#max_show").value
+    // console.log(a)
+    a = String(a)
+    // console.log(a)
+    // 如果想去掉所以的','，最简单的办法就是正则表达式了。下面是简单的例子。
+    a = a.replace(/,/g,'');
+    a = a.replace(/￥/g,'');
+    // a = a.replace(/:/g,'');
+    // a = parseFloat(a).toFixed(2)
+    a = Number(a)
+    // console.log(a)
+    document.querySelector("#maxcoin").value = a;
+    if (a==0)  document.querySelector("#maxcoin").value = "";
+    // console.log(a)
+    document.querySelector("#max_show").value = '￥ '+ String(parseFloat(a).toLocaleString());
+
+   
+   });
+
+   
+   $("#min_show").bind('input propertychange',function () {
+    var b = document.querySelector("#min_show").value
+    // console.log(b)
+    b = String(b)
+    // console.log(b)
+    // 如果想去掉所以的','，最简单的办法就是正则表达式了。下面是简单的例子。
+    b = b.replace(/,/g,'');
+    b = b.replace(/￥/g,'');
+    // b = b.replace(/:/g,'');
+    b = Number(b)
+
+    document.querySelector("#mincoin").value = b;
+    if (b==0)     document.querySelector("#mincoin").value = "";
+
+    document.querySelector("#min_show").value = '￥ '+ String(parseFloat(b).toLocaleString());
+
+   
+   });
+   
+   </script>    
+
     <script>
         async function submitForm(formElem) {
 
@@ -246,63 +294,60 @@
             if (response.ok) {
                 var html = await response.json();
 
-                dynamicCode_init_list = '<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">' +
-                    '<thead> <tr>' +
-                    '<th>ID</th>' +
-                    '<th>业务摘要</th>' +
-                    '<th>交易时间</th>' +
-                    '<th>交易金额</th>' +
-                    '<th>余额</th>' +
-                    '<th></th>' +
-                    '</tr></thead>';
-                dynamicCode_init_list += '<tbody>';
+                dynamicCode_init_list = '<div class="columns">' +
+                    '<div class="column is-1">ID</div>' +
+                    '<div class="column is-2">业务<br>摘要</div>' +
+                    '<div class="column is-3">交易时间</div>' +
+                    '<div class="column is-2">交易<br>金额</div>' +
+                    '<div class="column is-2">余额</div>';
+                dynamicCode_init_list += '</div>';
 
                 html.histransacs.forEach(function (histransac) {
 
-                    dynamicCode_init_list += '<form action="/transac/details/" method="POST">' +
-                        '<tr>' +
+                    dynamicCode_init_list += '<form class="columns" action="/transac/details/" method="POST">' +
+                        '<div class="column is-1">' +
+                            String(histransac.id)+   
                         '<input type="hidden" name="histransac_id" value="' + String(histransac.id) + '">' +
                         '<input type="hidden" name="curr_card_number" value="' + String(html.curr_card_number) + '">' +
-                        '<th>' +
-                        String(histransac.id) +
-                        '</th>' +
-                        '<td>' +
+                        '</div>' +
+
+                        '<div class="column is-2">' +
                         String(histransac.business_summary) +
-                        '</td>';
+                        '</div>';
 
                     if (histransac.remittance_card_number == html.curr_card_number) {
-                        dynamicCode_init_list += '<td>' +
+                        dynamicCode_init_list += '<div class="column is-3">' +
                             String(histransac.remittance_time) +
-                            '</td>' +
-                            '<td>-' +
-                            String(histransac.transaction_amount) +
-                            '</td>' +
-                            '<td>' +
-                            String(histransac.remittance_balance) +
-                            '</td>';
+                            '</div>' +
+                            '<div class="column is-2"><font color="green">- ￥' +
+                            parseFloat(String(histransac.transaction_amount)).toLocaleString() +
+                            '</font></div>' +
+                            '<div class="column is-2">￥' +
+                            parseFloat(String(histransac.remittance_balance)).toLocaleString() +
+                            '</div>';
 
                     } else {
-                        dynamicCode_init_list += '<td>' +
+                        dynamicCode_init_list += '<div class="column is-3">' +
                             String(histransac.receiving_time) +
-                            '</td>' +
-                            '<td>+' +
-                            String(histransac.transaction_amount) +
-                            '</td>' +
-                            '<td>' +
-                            String(histransac.receiving_balance) +
-                            '</td>';
+                            '</div>' +
+                            '<div class="column is-2"><font color="red">+ ￥' +
+                            parseFloat(String(histransac.transaction_amount)).toLocaleString() +
+                            '</font></div>' +
+                            '<div class="column is-2">￥' +
+                            parseFloat(String(histransac.receiving_balance)).toLocaleString() +
+                            '</div>';
                     }
 
-                    dynamicCode_init_list += '<td> <button type="submit" title="Details"> Details </button>' +
+                    dynamicCode_init_list += '<div class="column is-2">' +
                         // dynamicCode_init_list += '<td> <a href="http://www.w3school.com.cn"> Details </button>' +
-                        '</td>' +
-                        '</tr>' +
+                        '<button type="submit" title="Details">Details</button>' +
+                        '</div>' +
                         '</form>';
                 });
 
-                dynamicCode_init_list += '</tbody> </table>'
+                // dynamicCode_init_list += '</tbody> </table>'
 
-                console.log(dynamicCode_init_list)
+                // console.log(dynamicCode_init_list)
                 document.querySelector("#his_record").innerHTML = dynamicCode_init_list;
 
             } else if (response.status == 401) {

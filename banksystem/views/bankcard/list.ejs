@@ -20,7 +20,7 @@
                 <content>持卡人 ：<%= bankcard.owner %></content>
                 <br>
                 <br>
-                <p> 余额 : <%= bankcard.balances %></p>
+                <p> 余额 : ￥<%= parseFloat(bankcard.balances).toLocaleString() %></p>
 
             </div>
 
@@ -50,7 +50,7 @@
                 <content>持卡人 ：<%= bankcard.owner %></content>
                 <br>
                 <br>
-                <p> 余额 : <%= bankcard.balances %></p>
+                <p> 余额 : ￥<%= parseFloat(bankcard.balances).toLocaleString() %></p>
 
             </div>
 

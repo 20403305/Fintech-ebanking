@@ -1,20 +1,20 @@
 <% if (objtransac.remittance_card_number == curr_card_number) { %>
     支出金额 ：
-    <%= objtransac.transaction_amount %> <br><br> 对方账户名称/账号 ：
+    <font color="green">￥<%= parseFloat(objtransac.transaction_amount).toLocaleString() %></font> <br><br> 对方账户名称/账号 ：
         <%= objtransac.receiving_name %><br><br> 交易时间 :
             <%= objtransac.remittance_time %><br><br> 业务摘要 :
                 <%= objtransac.business_summary %><br><br> 余额 :
-                    <%= objtransac.remittance_balance %><br><br> 交易渠道 :
+                ￥<%= parseFloat(objtransac.remittance_balance).toLocaleString() %><br><br> 交易渠道 :
                         <%= objtransac.Trading_channel %> <br><br> 附录 :
                             <%= objtransac.postscript %><br><br>
                                 <% }else{%>
                                     收入金额 ：
-                                    <%= objtransac.transaction_amount %><br><br> 对方账户名称/账号 ：
+                                    <font color="red">￥<%= parseFloat(objtransac.transaction_amount).toLocaleString() %></font><br><br> 对方账户名称/账号 ：
                                         <%= objtransac.remittance_name %>
                                             <%= objtransac.remittance_card_number %><br><br> 交易时间 :
                                                 <%= objtransac.receiving_time %><br><br> 业务摘要 :
                                                     <%= objtransac.business_summary %><br><br> 余额 :
-                                                        <%= objtransac.receiving_balance %><br><br> 交易渠道 :
+                                                    ￥<%= parseFloat(objtransac.receiving_balance).toLocaleString() %><br><br> 交易渠道 :
                                                             <%=objtransac.Trading_channel %><br><br> 附录 :
                                                                 <%= objtransac.postscript %><br><br>
                                                                     <% }%>

@@ -11,7 +11,15 @@ module.exports = {
 
         if (req.method == "GET") return res.view('user/login_black', { layout: 'layouts/u_layout' });
 
-        if (!req.body.username || !req.body.password) return res.badRequest();
+        if (!req.body.identifying_code) return res.status(401).json("Please enter verification code");
+
+        if (req.body.identifying_code != req.body.real_identifying_code) return res.status(401).json("Verification code error");
+
+        // if (!req.body.username || !req.body.password) return res.badRequest();
+
+        if (!req.body.username) return res.status(401).json("Enter username, please~");
+        
+        if (!req.body.password) return res.status(401).json("Enter password, please~");
 
         var user = await User.findOne({ username: req.body.username });
 

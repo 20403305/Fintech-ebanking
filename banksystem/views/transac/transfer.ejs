@@ -8,8 +8,8 @@
                         <%= bankcard.id %>
                     </td>
                     <td>
-                        餘額：
-                        <%= bankcard.balances %>
+                        餘額：￥
+                        <%= parseFloat(bankcard.balances).toLocaleString() %>
                     </td>
                     <td>
                         所属银行：
@@ -33,7 +33,7 @@
 
                     <input class="input" type="text" placeholder="匯款金額" name="remittance_amount">
 
-                    <input class="input" type="text" placeholder="匯款時間" name="remittance_time">
+                    <input class="input" type="text" placeholder="匯款時間" name="remittance_time" value="实时" readonly>
 
                     <div class="field">
                         <label class="label">匯款賬號</label>
@@ -42,7 +42,7 @@
                                 <select onchange="regionSelected(this.value)" name="payment_card_number"
                                     id="payment_card_number">
                                     <% users.bankcards.forEach( function(bankcard) { %>
-                                        <option value="<%= bankcard.id %>">卡號：<%= bankcard.id %> 可用餘額<%= bankcard.balances %>元</option>
+                                        <option value="<%= bankcard.id %>">卡號：<%= bankcard.id %> 可用餘額: ￥<%= parseFloat(bankcard.balances).toLocaleString() %></option>
                                         <% }); %>
                                 </select>
                             </div>
