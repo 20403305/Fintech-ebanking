@@ -19,7 +19,7 @@ module.exports = {
 //     at ServerResponse.header (C:\Users\HP\Desktop\7300project\banksystem\node_modules\express\lib\response.js:771:10)
 
         // console.log(req.session.userrole)
-        if (req.session.userrole != "admin") res.json("Not permission");
+        // if (req.session.userrole != "admin") res.json("Not permission");
         if (req.method == "GET") {
 
             var everyones = await BankCard.find();
