@@ -9,7 +9,7 @@ module.exports = {
 
     // action - list
     list: async function (req, res) {
-        if (!req.session.username) return res.json("Please log in first");
+        // if (!req.session.username) return res.json("Please log in first");
 
 //         ????问什么会不行
 //         member
@@ -19,7 +19,7 @@ module.exports = {
 //     at ServerResponse.header (C:\Users\HP\Desktop\7300project\banksystem\node_modules\express\lib\response.js:771:10)
 
         // console.log(req.session.userrole)
-        // if (req.session.userrole != "admin") res.json("Not permission");
+        // if (req.session.userrole != "admin") return res.json("Not permission");
         if (req.method == "GET") {
 
             var everyones = await BankCard.find();
@@ -63,7 +63,12 @@ module.exports = {
 
     // action - list
     homepage: async function (req, res) {
-            return res.view('bankcard/homepage');
+        if (req.method == "GET") {
+            return res.view('bankcard/homepage',{session: req.session });
+        }
+            if (req.wantsJSON) {
+                return res.json(req.session)
+            }
     },
 
 

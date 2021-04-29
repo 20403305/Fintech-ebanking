@@ -8,6 +8,8 @@
  * https://sailsjs.com/docs/concepts/policies
  */
 
+// const BankCardController = require("../api/controllers/BankCardController");
+
 module.exports.policies = {
 
   /***************************************************************************
@@ -22,5 +24,9 @@ module.exports.policies = {
 
   PersonController: {
     create: 'isAdmin'
+  },
+  BankCardController:{
+    list: 'isAdmin'
   }
+  
 };

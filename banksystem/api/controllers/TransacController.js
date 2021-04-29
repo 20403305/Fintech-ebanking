@@ -214,7 +214,7 @@ module.exports = {
 
         if (req.wantsJSON) {
 
-            // console.log(req.body.transaction_date)
+            console.log(req.body)
 
         if (!req.session.username) return res.json("Please log in first");
         if (!req.body.card_number) return res.json("无卡记录");
@@ -225,8 +225,8 @@ module.exports = {
         if (req.body.card_number) whereClause.remittance_card_number = parseInt(req.body.card_number);
         if (req.body.card_number) whereClause.receiving_card_number = parseInt(req.body.card_number);
 
-        console.log(typeof (req.body.opponent_card_number))
-        console.log(typeof (req.body.opponent_name))
+        // console.log(typeof (req.body.opponent_card_number))
+        // console.log(typeof (req.body.opponent_name))
 
         if (req.body.opponent_card_number) whereClause.opponent_card_number = parseInt(req.body.opponent_card_number);
         if (req.body.opponent_name) whereClause.opponent_name = { contains: req.body.opponent_name };
@@ -280,8 +280,8 @@ module.exports = {
         // In previous versions of Sails/Waterline, this criteria _may_ have worked, since keywords like `limit` were allowed to sit alongside attribute names that are really 
         // supposed to be wrapped inside of the `where` clause.  But starting in Sails v1.0/Waterline 0.13, if a `limit`, `skip`, `sort`, etc is defined, then any <attribute name> vs. <constraint> pairs should be explicitly contained inside the `where` clause.
         // * * *
-        console.log({ remittance_card_number: whereClause.remittance_card_number, remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name });
-        console.log({ receiving_card_number: whereClause.receiving_card_number, receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name });
+        // console.log({ remittance_card_number: whereClause.remittance_card_number, remittance_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, receiving_card_number: whereClause.opponent_card_number, receiving_name: whereClause.opponent_name });
+        // console.log({ receiving_card_number: whereClause.receiving_card_number, receiving_time: whereClause.transaction_date, transaction_amount: whereClause.transaction_amount, remittance_card_number: whereClause.opponent_card_number, remittance_name: whereClause.opponent_name });
 
         //如何按时间排序？？？？sort  会出现 以上
         if (whereClause.income_expand == "全部") {

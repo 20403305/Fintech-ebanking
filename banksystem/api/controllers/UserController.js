@@ -96,9 +96,9 @@ module.exports = {
         if (req.method == "GET") return res.view('user/change_password');
 
         if (!req.body.old_password) return res.json("请输入旧密码");
-        if (!req.body.old_password_verify) return res.json("请输入验证旧密码");
-        if (!req.body.new_password) return res.json("请输入新密码");
 
+        if (!req.body.new_password) return res.json("请输入新密码");
+        if (!req.body.new_password_verify) return res.json("请输入验证新密码");
 
 
         var user = await User.findOne(req.session.userid);
@@ -106,7 +106,7 @@ module.exports = {
         var match = await sails.bcrypt.compare(req.body.old_password, user.password);
         if (!match) return res.status(401).json("旧密码错误");
 
-        if (req.body.old_password != req.body.old_password_verify) return res.json("两次旧密码输入不一致");
+        if (req.body.new_password != req.body.new_password_verify) return res.json("两次新密码输入不一致");
 
         if (req.body.old_password == req.body.new_password) return res.json("新旧密码一致，请重新设置");
 

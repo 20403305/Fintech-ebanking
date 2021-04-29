@@ -61,12 +61,40 @@
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start" id="menu_bar_1">
           <!-- 123 -->
+
+
+          
         </div>
 
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons" id="menu_bar_2">
               <!-- 456 -->
+              <a class="navbar-item" href="/user/self_info"> 我的信息  </a>
+              <% if (req.session.userrole=='admin' ) { %>
+                <a class="navbar-item" href="/transac/transfer"> 转账汇款 </a>
+                <a class="navbar-item" href="/user/acc_overview"> 账户总览 </a>
+                <a class="navbar-item" href="/list"> 选择卡号 </a>
+                <a class="navbar-item" href="/bankcard/create"> 创建空卡 </a>
+                Hi  <%= req.session.username%>
+                <form action="/user/logout" method="post">
+                  <button class="button is-link" type="submit">Logout</button>
+                  </form>
+                <% } else if (req.session.userrole=='member' ) { %>
+                  <a class="navbar-item" href="/transac/transfer"> 转账汇款 </a>
+                  <a class="navbar-item" href="/user/acc_overview"> 账户总览 </a>
+                  Hi  <%= req.session.username%>
+                  <form action="/user/logout" method="post">
+                    <button class="button is-link" type="submit">Logout</button>
+                    </form>
+                <% } else { %>
+                  <a class="button is-primary" href="/user/signup">
+                    <strong>Sign up</strong>
+                  </a>
+                    <a class="button is-light" href="/user/login">
+                    Log in
+                    </a>
+                  <% } %>
             </div>
           </div>
         </div>
@@ -164,7 +192,8 @@
   <script>
     async function ajaxconfirmuser() {
 
-      var response = await fetch("/list/", {
+      // var response = await fetch("/list/", {
+        var response = await fetch("/", {
         method: "POST",
       });
       if (response.ok) {
@@ -181,9 +210,9 @@
         }
         if (html.userrole == "admin") {
 
-          dynamicCode_menubar_1 += '<a class="navbar-item" href="/list"> 选择卡号  </a>'+
-          '<a class="navbar-item" href="/bankcard/create"> 创建空卡 </a>';
-            // '<a class="navbar-item" href="/eat/admin"> Admin </a>';
+          dynamicCode_menubar_1 += '<a class="navbar-item" href="/list"> 选择卡号  </a>' +
+            '<a class="navbar-item" href="/bankcard/create"> 创建空卡 </a>';
+          // '<a class="navbar-item" href="/eat/admin"> Admin </a>';
         }
         document.querySelector("#menu_bar_1").innerHTML = dynamicCode_menubar_1;
 

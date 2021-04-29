@@ -34,6 +34,7 @@ module.exports.routes = {
      ***************************************************************************/
 
     'GET /': 'BankCardController.homepage',
+    'POST /': 'BankCardController.homepage',
 
 
     'GET /user/login': 'UserController.login',
